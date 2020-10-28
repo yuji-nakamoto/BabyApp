@@ -15,23 +15,18 @@ class ParchmentMelodyViewController: UIViewController {
         initPagingVC()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isHidden = true
-    }
-    
     private func initPagingVC() {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let sleepVC = storyboard.instantiateViewController(withIdentifier: "SleepVC")
         let funVC = storyboard.instantiateViewController(withIdentifier: "FunVC")
-        let etcetraVC = storyboard.instantiateViewController(withIdentifier: "EtcetraVC")
+        let animalVC = storyboard.instantiateViewController(withIdentifier: "AnimalVC")
         
         sleepVC.title = "泣き止む"
         funVC.title = "楽しい"
-        etcetraVC.title = "その他"
+        animalVC.title = "動物"
         
-        let pagingVC = PagingViewController(viewControllers: [sleepVC, funVC, etcetraVC])
+        let pagingVC = PagingViewController(viewControllers: [sleepVC, funVC, animalVC])
         addChild(pagingVC)
         view.addSubview(pagingVC.view)
         pagingVC.didMove(toParent: self)
@@ -41,17 +36,14 @@ class ParchmentMelodyViewController: UIViewController {
             pagingVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             pagingVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             pagingVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            pagingVC.view.topAnchor.constraint(equalTo: view.topAnchor, constant: 40)
+            pagingVC.view.topAnchor.constraint(equalTo: view.topAnchor, constant: 51)
         ])
         
-        pagingVC.font = UIFont(name: "HiraMaruProN-W4", size: 11)!
-        pagingVC.selectedFont = UIFont(name: "HiraMaruProN-W4", size: 13)!
+        pagingVC.font = UIFont(name: "HiraMaruProN-W4", size: 12)!
+        pagingVC.selectedFont = UIFont(name: "HiraMaruProN-W4", size: 14)!
         pagingVC.selectedTextColor = .black
         pagingVC.indicatorColor = UIColor.systemIndigo
         pagingVC.menuItemSize = .fixed(width: 120, height: 40)
         pagingVC.menuHorizontalAlignment = .center
-        
-        navigationController?.navigationBar.titleTextAttributes
-            = [NSAttributedString.Key.font: UIFont(name: "HiraMaruProN-W4", size: 15)!]
     }
 }
