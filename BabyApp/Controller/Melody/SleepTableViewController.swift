@@ -35,12 +35,6 @@ class SleepTableViewController: UIViewController {
         tableView.separatorStyle = .none
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
-        UserDefaults.standard.removeObject(forKey: ON_FUN_VC)
-    }
-    
     private func setupBanner() {
         
         bannerView.adUnitID = "ca-app-pub-4750883229624981/8230449518"

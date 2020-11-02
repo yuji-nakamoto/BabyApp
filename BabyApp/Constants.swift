@@ -6,6 +6,61 @@
 //
 
 import Foundation
+import Firebase
+
+public let COLLECTION_USERS = Firestore.firestore().collection("users")
+public let COLLECTION_TWEET = Firestore.firestore().collection("tweet")
+public let COLLECTION_FOLLOW = Firestore.firestore().collection("follow")
+public let COLLECTION_FOLLOWER = Firestore.firestore().collection("follower")
+public let COLLECTION_FEED = Firestore.firestore().collection("feed")
+public let COLLECTION_INQUIRY = Firestore.firestore().collection("inquiry")
+public let COLLECTION_OPINION = Firestore.firestore().collection("opinion")
+public let COLLECTION_REPORT = Firestore.firestore().collection("report")
+public let COLLECTION_BLOCK = Firestore.firestore().collection("block")
+
+public let O_BLACK = "original_black"
+public let O_GREEN = "original_green"
+public let O_RED = "original_red"
+public let O_BLUE = "original_blue"
+public let O_NAVY1 = "original_navy1"
+public let O_NAVY2 = "original_navy2"
+
+public let UID = "uid"
+public let USERNAME = "username"
+public let EMAIL = "email"
+public let PROFILE_IMAGE_URL = "profileImageUrl"
+public let AGE = "age"
+public let SELFINTRO = "selfIntro"
+public let INQUIRY = "inquiry"
+public let OPINION = "opinion"
+
+public let FROM = "from"
+public let TO = "to"
+public let REPORT = "report"
+
+public let ISBLOCK = "isBlock"
+
+public let TWEETID = "tweetId"
+public let DATE = "date"
+public let DATE2 = "date2"
+public let TEXT = "text"
+public let CONTENTS_IMAGE_URL = "contentsImageUrl"
+public let LIKECOUNT = "likeCount"
+public let TIMESTAMP = "timestamp"
+public let COMMENT = "comment"
+public let COMMENTCOUNT = "commentCount"
+public let COMMENTID = "commentId"
+
+public let IS_FOLLOW = "isFollow"
+public let FOLLOW_COUNT = "followCount"
+public let IS_FOLLOWER = "isFollower"
+public let FOLLOWER_COUNT = "followerCount"
+
+public let ON_REFRESH = "onRefresh"
+public let ON_HUD = "onHud"
+public let ON_MYPAGE = "onMyPage"
+public let REFRESH = "refresh"
+public let IS_LOGIN = "isLogin"
 
 public let FAVO_SLEEP1 = "favoSLEEP1"
 public let FAVO_SLEEP2 = "favoSLEEP2"
@@ -38,4 +93,18 @@ public let FAVO_ANIMAL7 = "favoAnimal7"
 public let FAVO_ANIMAL8 = "favoAnimal8"
 public let FAVO_ANIMAL9 = "favoAnimal9"
 
-public let ON_FUN_VC = "onFunVC"
+public let FAVO_NATURE1 = "favoNature1"
+public let FAVO_NATURE2 = "favoNature2"
+public let FAVO_NATURE3 = "favoNature3"
+public let FAVO_NATURE4 = "favoNature4"
+public let FAVO_NATURE5 = "favoNature5"
+public let FAVO_NATURE6 = "favoNature6"
+public let FAVO_NATURE7 = "favoNature7"
+public let FAVO_NATURE8 = "favoNature8"
+public let FAVO_NATURE9 = "favoNature9"
+public let FAVO_NATURE10 = "favoNature10"
+public let FAVO_NATURE11 = "favoNature11"
+
+public let ADD_FAVO = "addFavo"
+
+public let PLACEHOLDER_IMAGE_URL = "https://firebasestorage.googleapis.com/v0/b/datingapp-d0f98.appspot.com/o/images%2F2EB76E60-16FA-494F-9419-19905F13553C?alt=media&token=3c8906ed-1a5e-4370-8270-432dc0431ae5"

@@ -9,22 +9,38 @@ import UIKit
 import Parchment
 
 class ParchmentCommunityViewController: UIViewController {
-
+    
+    private var statusBarStyle: UIStatusBarStyle = .lightContent
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initPagingVC()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return statusBarStyle
+    }
+    
+    func setStatusBarStyle(style: UIStatusBarStyle) {
+        statusBarStyle = style
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+    
     private func initPagingVC() {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let communityVC = storyboard.instantiateViewController(withIdentifier: "CommunityVC")
+        let tweetVC = storyboard.instantiateViewController(withIdentifier: "TweetVC")
         let feedVC = storyboard.instantiateViewController(withIdentifier: "FeedVC")
         
-        communityVC.title = "コミュニティ"
+        tweetVC.title = "みんなの投稿"
         feedVC.title = "フィード"
         
-        let pagingVC = PagingViewController(viewControllers: [communityVC, feedVC])
+        let pagingVC = PagingViewController(viewControllers: [tweetVC, feedVC])
         addChild(pagingVC)
         view.addSubview(pagingVC.view)
         pagingVC.didMove(toParent: self)
@@ -39,9 +55,12 @@ class ParchmentCommunityViewController: UIViewController {
         
         pagingVC.font = UIFont(name: "HiraMaruProN-W4", size: 12)!
         pagingVC.selectedFont = UIFont(name: "HiraMaruProN-W4", size: 14)!
-        pagingVC.selectedTextColor = .black
-        pagingVC.indicatorColor = UIColor.systemIndigo
+        pagingVC.selectedTextColor = .white
+        pagingVC.textColor = .white
+        pagingVC.indicatorColor = .systemYellow
         pagingVC.menuItemSize = .fixed(width: 130, height: 40)
         pagingVC.menuHorizontalAlignment = .center
+        pagingVC.menuBackgroundColor = UIColor(named: O_NAVY2)!
+        pagingVC.borderColor = UIColor(named: O_NAVY2)!
     }
 }

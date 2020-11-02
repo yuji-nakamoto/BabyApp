@@ -19,14 +19,16 @@ class ParchmentMelodyViewController: UIViewController {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let sleepVC = storyboard.instantiateViewController(withIdentifier: "SleepVC")
+        let natureVC = storyboard.instantiateViewController(withIdentifier: "NatureVC")
         let funVC = storyboard.instantiateViewController(withIdentifier: "FunVC")
         let animalVC = storyboard.instantiateViewController(withIdentifier: "AnimalVC")
         
         sleepVC.title = "泣き止む"
-        funVC.title = "楽しい"
+        natureVC.title = "自然"
         animalVC.title = "動物"
+        funVC.title = "楽しい"
         
-        let pagingVC = PagingViewController(viewControllers: [sleepVC, funVC, animalVC])
+        let pagingVC = PagingViewController(viewControllers: [sleepVC, natureVC, animalVC, funVC])
         addChild(pagingVC)
         view.addSubview(pagingVC.view)
         pagingVC.didMove(toParent: self)
@@ -41,9 +43,12 @@ class ParchmentMelodyViewController: UIViewController {
         
         pagingVC.font = UIFont(name: "HiraMaruProN-W4", size: 12)!
         pagingVC.selectedFont = UIFont(name: "HiraMaruProN-W4", size: 14)!
-        pagingVC.selectedTextColor = .black
-        pagingVC.indicatorColor = UIColor.systemIndigo
+        pagingVC.selectedTextColor = .white
+        pagingVC.textColor = .white
+        pagingVC.indicatorColor = .systemYellow
         pagingVC.menuItemSize = .fixed(width: 120, height: 40)
         pagingVC.menuHorizontalAlignment = .center
+        pagingVC.menuBackgroundColor = UIColor(named: O_NAVY2)!
+        pagingVC.borderColor = UIColor(named: O_NAVY2)!
     }
 }
