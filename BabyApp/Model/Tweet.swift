@@ -121,6 +121,9 @@ class Tweet {
             if let error = error {
                 print(error.localizedDescription)
             }
+            if snapshot?.documents == [] {
+                completion(Tweet(dict: [TWEETID: ""]))
+            }
             snapshot?.documents.forEach({ (document) in
                 let dict = document.data()
                 let feed = Tweet(dict: dict)

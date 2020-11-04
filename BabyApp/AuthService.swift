@@ -38,6 +38,9 @@ struct AuthService {
     
     static func logoutUser(completion: @escaping(_ error: Error?) -> Void) {
         
+        Messaging.messaging().unsubscribe(fromTopic: "post\(User.currentUserId())")
+        Messaging.messaging().unsubscribe(fromTopic: "follow\(User.currentUserId())")
+        
         do {
             try Auth.auth().signOut()
             completion(nil)

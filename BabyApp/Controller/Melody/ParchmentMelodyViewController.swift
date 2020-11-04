@@ -47,7 +47,7 @@ class ParchmentMelodyViewController: UIViewController {
         pagingVC.textColor = .white
         pagingVC.indicatorColor = .systemYellow
         pagingVC.menuItemSize = .fixed(width: 120, height: 40)
-        pagingVC.menuHorizontalAlignment = .center
+        pagingVC.menuHorizontalAlignment = .left
         pagingVC.menuBackgroundColor = UIColor(named: O_NAVY2)!
         pagingVC.borderColor = UIColor(named: O_NAVY2)!
     }

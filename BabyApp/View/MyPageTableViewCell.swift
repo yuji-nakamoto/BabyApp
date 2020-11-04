@@ -21,6 +21,7 @@ class MyPageTableViewCell: UITableViewCell {
     @IBOutlet weak var postLabel: UILabel!
     
     var user = User()
+    var currentUser = User()
     var block = Block()
     var follow = Follow()
     var followCount = Follow()
@@ -45,12 +46,12 @@ class MyPageTableViewCell: UITableViewCell {
             sIntroLblTopConstraint.constant = 0
         }
         
-        guard followerCount.followerCount != nil else { return }
+        guard followerCount.followerCount != nil && followCount.followCount != nil else { return }
         followCountLbl.text = String(followCount.followCount)
         followerCountLbl.text = String(followerCount.followerCount)
     }
     
-    func configureOtherCell(_ user: User, _ follow: Follow, _ followerCount: Follower, _ followCount: Follow, _ checkFollower: Follower) {
+    func configureOtherCell(_ user: User, _ follow: Follow, _ followerCount: Follower, _ followCount: Follow, _ checkFollow: Follow) {
         
         nameLabel.text = user.username
         postLabel.text = "\(user.username ?? "")さんの投稿"
@@ -64,13 +65,13 @@ class MyPageTableViewCell: UITableViewCell {
             followButton.setTitle("フォローする", for: .normal)
         }
         
-        if checkFollower.isFollower == true {
+        if checkFollow.isFollow == true {
             checkFollowLbl.isHidden = false
         } else {
             checkFollowLbl.isHidden = true
         }
         
-        guard followerCount.followerCount != nil else { return }
+        guard followerCount.followerCount != nil && followCount.followCount != nil else { return }
         followerCountLbl.text = String(followerCount.followerCount)
         followCountLbl.text = String(followCount.followCount)
     }
@@ -113,7 +114,11 @@ class MyPageTableViewCell: UITableViewCell {
                         otherVC?.viewWillAppear(true)
                     }
                 }
-                followButton.setTitle("フォローする", for: .normal)
+                followButton.isEnabled = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    followButton.setTitle("フォローする", for: .normal)
+                    followButton.isEnabled = true
+                }
             }
             let cancel = UIAlertAction(title: "キャンセル", style: .cancel)
             
@@ -125,6 +130,7 @@ class MyPageTableViewCell: UITableViewCell {
             let alert = UIAlertController(title: user.username, message: "フォローをしますか？", preferredStyle: .actionSheet)
             let release = UIAlertAction(title: "フォローする", style: UIAlertAction.Style.default) { [self] (alert) in
                 
+                incrementAppBadgeCount()
                 Follow.toFollow(userId: user.uid, value: [UID: user.uid as Any, IS_FOLLOW: true]) {}
                 Follower.toFollower(userId: user.uid, value: [UID: User.currentUserId(), IS_FOLLOWER: true]) {}
                 Follow.updateFollowCount(value: [FOLLOW_COUNT: followCount.followCount + 1]) {
@@ -132,7 +138,11 @@ class MyPageTableViewCell: UITableViewCell {
                         otherVC?.viewWillAppear(true)
                     }
                 }
-                followButton.setTitle("フォロー中", for: .normal)
+                followButton.isEnabled = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    followButton.setTitle("フォロー中", for: .normal)
+                    followButton.isEnabled = true
+                }
             }
             let cancel = UIAlertAction(title: "キャンセル", style: .cancel)
             
@@ -140,6 +150,13 @@ class MyPageTableViewCell: UITableViewCell {
             alert.addAction(cancel)
             otherVC?.present(alert,animated: true,completion: nil)
         }
+    }
+    
+    private func incrementAppBadgeCount() {
+        
+        sendRequestNotification(userId: user.uid,
+                                 message: "\(self.currentUser.username!)さんがフォローしました",
+                                 badge: self.user.appBadgeCount + 1)
     }
     
     override func awakeFromNib() {
@@ -150,6 +167,7 @@ class MyPageTableViewCell: UITableViewCell {
         profileImageView.layer.cornerRadius = 80 / 2
         
         guard followButton != nil else { return }
+        followButton.setTitle("", for: .normal)
         followButton.layer.cornerRadius = 30 / 2
         checkFollowLbl.isHidden = true
         checkFollowLbl.layer.borderColor = UIColor.systemGray.cgColor

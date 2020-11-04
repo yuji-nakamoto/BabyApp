@@ -21,8 +21,8 @@ class FollowerTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupBanner()
-        testBanner()
+        setupBanner()
+//        testBanner()
         fetchFollowers()
         setup()
     }
@@ -36,11 +36,14 @@ class FollowerTableViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    // MARK: - Helpers
+    // MARK: - Fetch
     
     private func fetchFollowers() {
         
+        users.removeAll()
+        followerArray.removeAll()
         indicator.startAnimating()
+        
         if userId == "" {
             userId = User.currentUserId()
         }
@@ -118,7 +121,11 @@ extension FollowerTableViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "OtherVC", sender: users[indexPath.row].uid)
+        if let uid = users[indexPath.row].uid {
+            if uid != User.currentUserId() {
+                performSegue(withIdentifier: "OtherVC", sender: uid)
+            }
+        }
     }
 }
 

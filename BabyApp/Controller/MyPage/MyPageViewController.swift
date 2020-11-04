@@ -23,10 +23,9 @@ class MyPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupBanner()
-        testBanner()
+        setupBanner()
+//        testBanner()
         setup()
-        fetchUser()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,11 +33,8 @@ class MyPageViewController: UIViewController {
         fetchFollowCount()
         fetchFollwerCount()
         fetchMyTweet()
+        fetchUser()
         navigationController?.navigationBar.isHidden = false
-        if UserDefaults.standard.object(forKey: REFRESH) != nil {
-            fetchUser()
-            UserDefaults.standard.removeObject(forKey: REFRESH)
-        }
     }
     
     // MARK: - Fetch
@@ -48,6 +44,7 @@ class MyPageViewController: UIViewController {
         indicator.startAnimating()
         User.fetchUser(User.currentUserId()) { (user) in
             self.user = user
+            self.resetBadge(self.user)
             self.indicator.stopAnimating()
             self.tableView.reloadData()
         }
@@ -79,6 +76,14 @@ class MyPageViewController: UIViewController {
     }
     
     // MARK: - Helpers
+    
+    private func resetBadge(_ user: User) {
+        
+        let totalAppBadgeCount = user.appBadgeCount - user.myPageBadgeCount
+        
+        updateUser(withValue: [MYPAGE_BADGE_COUNT: 0, APP_BADGE_COUNT: totalAppBadgeCount])
+        UIApplication.shared.applicationIconBadgeNumber = totalAppBadgeCount
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         

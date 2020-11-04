@@ -19,6 +19,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var termsButton: UIButton!
+    @IBOutlet weak var loginButton: UIButton!
     
     private let emailTextField = HoshiTextField(frame: CGRect(x: 40, y: 200, width: 300, height: 60))
     private let passwordTextField = HoshiTextField(frame: CGRect(x: 40, y: 265, width: 300, height: 60))
@@ -100,6 +101,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         self.view.addSubview(passwordTextField)
         
         descriptionLabel.text = "メールアドレスとパスワードを入力して、アカウントを作成してください。"
+        loginButton.layer.cornerRadius = 44 / 2
         doneButton.layer.cornerRadius = 44 / 2
         dismissButton.layer.cornerRadius = 44 / 2
         dismissButton.layer.borderWidth = 1

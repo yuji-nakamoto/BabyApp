@@ -16,6 +16,9 @@ class FollowTableViewCell: UITableViewCell {
     @IBOutlet weak var blockButton: UIButton!
     
     var user = User()
+    var follow = Follow()
+    var followCount = Follow()
+    var followerCount = Follower()
     var blockListVC: BlockListTableViewController?
     var followVC: FollowTableViewController?
     var followerVC: FollowerTableViewController?
@@ -46,6 +49,8 @@ class FollowTableViewCell: UITableViewCell {
         return dateFormatter.string(from: date!)
     }
     
+    // MARK: - Actions
+    
     @IBAction func blockButtonPressed(_ sender: Any) {
         
         let alert: UIAlertController = UIAlertController(title: user.username, message: "ブロック解除しますか？", preferredStyle: .actionSheet)
@@ -59,19 +64,9 @@ class FollowTableViewCell: UITableViewCell {
         alert.addAction(cancel)
         blockListVC?.present(alert,animated: true,completion: nil)
     }
-    
-    @objc func tapPrpfileImageView() {
-        
-        if let uid = user.uid {
-            followVC?.performSegue(withIdentifier: "OtherVC", sender: uid)
-            followerVC?.performSegue(withIdentifier: "OtherVC", sender: uid)
-        }
-    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapPrpfileImageView))
-        profileImageView.addGestureRecognizer(tap)
         profileImageView.layer.cornerRadius = 60 / 2
         
         guard blockButton != nil else { return }

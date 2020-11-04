@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import JGProgressHUD
 
 class SettingTableViewController: UITableViewController {
@@ -17,6 +18,10 @@ class SettingTableViewController: UITableViewController {
     @IBOutlet weak var loginButton: UIBarButtonItem!
     @IBOutlet weak var logoutLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var followLabel: UILabel!
+    @IBOutlet weak var postLabel: UILabel!
+    @IBOutlet weak var followSwitch: UISwitch!
+    @IBOutlet weak var postSwitch: UISwitch!
     
     private var user = User()
     private var profileImage: UIImage?
@@ -59,8 +64,39 @@ class SettingTableViewController: UITableViewController {
                     SELFINTRO: textView.text]
         
         updateUser(withValue: dict as [String : Any])
-        UserDefaults.standard.set(true, forKey: REFRESH)
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func onFollowSwich(_ sender: UISwitch) {
+        guard User.currentUserId() != "" else { return }
+        
+        if sender.isOn {
+            generator.notificationOccurred(.success)
+            UserDefaults.standard.set(true, forKey: PUSH_FOLLOW)
+            Messaging.messaging().subscribe(toTopic: "follow\(User.currentUserId())")
+            followLabel.text = "フォロー通知を受信する"
+        } else {
+            generator.notificationOccurred(.success)
+            UserDefaults.standard.removeObject(forKey: PUSH_FOLLOW)
+            Messaging.messaging().unsubscribe(fromTopic: "follow\(User.currentUserId())")
+            followLabel.text = "フォロー通知を受信しない"
+        }
+    }
+    
+    @IBAction func onPostSwich(_ sender: UISwitch) {
+        guard User.currentUserId() != "" else { return }
+
+        if sender.isOn {
+            generator.notificationOccurred(.success)
+            UserDefaults.standard.set(true, forKey: PUSH_POST)
+            Messaging.messaging().subscribe(toTopic: "post\(User.currentUserId())")
+            postLabel.text = "投稿通知を受信する"
+        } else {
+            generator.notificationOccurred(.success)
+            UserDefaults.standard.removeObject(forKey: PUSH_POST)
+            Messaging.messaging().unsubscribe(fromTopic: "post\(User.currentUserId())")
+            postLabel.text = "投稿通知を受信しない"
+        }
     }
     
     @objc func tapProfileImage() {
@@ -97,6 +133,22 @@ class SettingTableViewController: UITableViewController {
             nameTextField.isHidden = true
             textView.isHidden = true
             logoutLabel.alpha = 0.5
+        }
+        
+        if UserDefaults.standard.object(forKey: PUSH_FOLLOW) != nil {
+            followSwitch.isOn = true
+            followLabel.text = "フォロー通知を受信する"
+        } else {
+            followSwitch.isOn = false
+            followLabel.text = "フォロー通知を受信しない"
+        }
+        
+        if UserDefaults.standard.object(forKey: PUSH_POST) != nil {
+            postSwitch.isOn = true
+            postLabel.text = "投稿通知を受信する"
+        } else {
+            postSwitch.isOn = false
+            postLabel.text = "投稿通知を受信しない"
         }
                 
         textView.delegate = self
@@ -158,32 +210,12 @@ class SettingTableViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func withdraw() {
-        
-        let alert = UIAlertController(title: "", message: "退会手続きを進めますか？\n※退会するとアカウント情報が削除されます", preferredStyle: .actionSheet)
-        let logout = UIAlertAction(title: "退会を進める", style: UIAlertAction.Style.default) { (alert) in
-            self.toWithdrawVC()
-        }
-        let cancel = UIAlertAction(title: "キャンセル", style: .cancel)
-        
-        alert.addAction(logout)
-        alert.addAction(cancel)
-        self.present(alert,animated: true,completion: nil)
-    }
-    
-    private func toWithdrawVC() {
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let toWithdrawVC = storyboard.instantiateViewController(withIdentifier: "WithdrawVC")
-        self.present(toWithdrawVC, animated: true, completion: nil)
-    }
-    
     // MARK: - Table view
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.section == 3 {
+        if indexPath.section == 4 {
             
             if UserDefaults.standard.object(forKey: IS_LOGIN) == nil {
                 return
@@ -195,19 +227,21 @@ class SettingTableViewController: UITableViewController {
                         print(error.localizedDescription)
                     }
                     UserDefaults.standard.removeObject(forKey: IS_LOGIN)
+                    UserDefaults.standard.removeObject(forKey: PUSH_POST)
+                    UserDefaults.standard.removeObject(forKey: PUSH_FOLLOW)
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let tabVC = storyboard.instantiateViewController(withIdentifier: "TabVC")
                     self.present(tabVC, animated: true, completion: nil)
                 }
             }
             let cancel = UIAlertAction(title: "キャンセル", style: .cancel)
-            
+//            let screenSize = UIScreen.main.bounds
+
+//            alert.popoverPresentationController?.sourceView = self.view
+//            alert.popoverPresentationController?.sourceRect = CGRect(x: screenSize.size.width/2, y: screenSize.size.height, width: 0, height: 0)
             alert.addAction(loguout)
             alert.addAction(cancel)
             self.present(alert,animated: true,completion: nil)
-            
-        } else if indexPath.section == 2 && indexPath.row == 4 {
-            withdraw()
         }
     }
 }

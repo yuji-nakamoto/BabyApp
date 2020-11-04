@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import GoogleMobileAds
 
 class SleepTableViewController: UIViewController {
@@ -23,16 +24,31 @@ class SleepTableViewController: UIViewController {
     private let soundFilePath8 = Bundle.main.path(forResource: "cleaner_far", ofType: "mp3")
     private let soundFilePath9 = Bundle.main.path(forResource: "white_noise1", ofType: "mp3")
     private let soundFilePath10 = Bundle.main.path(forResource: "300hz_noise", ofType: "mp3")
-
+    private var user = User()
+    
     lazy var sounds = [soundFilePath1, soundFilePath2, soundFilePath3, soundFilePath4, soundFilePath5, soundFilePath6, soundFilePath7, soundFilePath8, soundFilePath9, soundFilePath10]
     private var soundTexts = ["ビニール袋", "ドライヤー", "洗濯機", "煮物", "シャワー", "水を注ぐ", "掃除機1", "掃除機2", "砂嵐", "ノイズ"]
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupBanner()
-        testBanner()
+        setupBanner()
+        //  testBanner()
+        
+        checkBadge()
+        messageSubscrive()
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
+    }
+    
+    private func messageSubscrive() {
+        
+        guard User.currentUserId() != "" else { return }
+        if UserDefaults.standard.object(forKey: PUSH_FOLLOW) != nil {
+            Messaging.messaging().subscribe(toTopic: "follow\(User.currentUserId())")
+        }
+        if UserDefaults.standard.object(forKey: PUSH_POST) != nil {
+            Messaging.messaging().subscribe(toTopic: "post\(User.currentUserId())")
+        }
     }
     
     private func setupBanner() {
@@ -47,6 +63,28 @@ class SleepTableViewController: UIViewController {
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
+    }
+    
+    private func checkBadge() {
+        guard Auth.auth().currentUser != nil else { return }
+        
+        User.fetchUserAddSnapshotListener() { (user) in
+            self.user = user
+
+            if self.user.communityBadgeCount == 0 {
+                self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = nil
+                
+            } else {
+                self.tabBarController?.viewControllers?[2].tabBarItem?.badgeValue = String(self.user.communityBadgeCount)
+            }
+    
+            if self.user.myPageBadgeCount == 0 {
+                self.tabBarController?.viewControllers?[3].tabBarItem.badgeValue = nil
+                
+            } else {
+                self.tabBarController?.viewControllers?[3].tabBarItem?.badgeValue = String(self.user.myPageBadgeCount)
+            }
+        }
     }
 }
 

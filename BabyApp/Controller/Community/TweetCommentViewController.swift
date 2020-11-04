@@ -35,8 +35,8 @@ class TweetCommentViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupBanner()
-        testBanner()
+        setupBanner()
+//        testBanner()
 
         setup()
         fetchTweet()
@@ -78,7 +78,6 @@ class TweetCommentViewController: UIViewController, UITextFieldDelegate {
         
         textField.resignFirstResponder()
         textField.text = ""
-//        incrementAppBadgeCount()
         fetchCommentCount(tweet)
     }
     
@@ -174,16 +173,6 @@ class TweetCommentViewController: UIViewController, UITextFieldDelegate {
             blockVC.userId = userId
         }
     }
-    
-//    private func incrementAppBadgeCount() {
-//
-//        if user.uid != User.currentUserId() {
-//            sendRequestNotification6(toUser: self.user,
-//                                    message: "\(self.currentUser.username!)さんからリプライです",
-//                                    badge: self.user.appBadgeCount + 1)
-//            updateToUser(self.user.uid, withValue: [NEWREPLY: true])
-//        }
-//    }
     
     private func setupBanner() {
         

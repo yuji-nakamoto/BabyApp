@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1087112917862-19kedc339mcdeusd9fql7urhogn01hfv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1087112917862-19kedc339mcdeusd9fql7urhogn01hfv</string>
+	<key>API_KEY</key>
+	<string>AIzaSyByy7HYCdoUqwBXd3CMUjd3Po1n6ZpKOUM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1087112917862</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>xmlApp.BabyApp</string>
+	<key>PROJECT_ID</key>
+	<string>babyapp-a1e0b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>babyapp-a1e0b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1087112917862:ios:ae365e4af60b25a843cea7</string>
+	<key>DATABASE_URL</key>
+	<string>https://babyapp-a1e0b.firebaseio.com</string>
+</dict>
+</plist>

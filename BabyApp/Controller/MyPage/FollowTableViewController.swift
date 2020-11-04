@@ -17,14 +17,17 @@ class FollowTableViewController: UIViewController {
     
     private var followArray = [Follow]()
     private var users = [User]()
+    private var user = User()
+    private var followCount = Follow()
+    private var fCArray = [Follower]()
     var userId = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupBanner()
-        testBanner()
-        fetchFollows()
+        setupBanner()
+//        testBanner()
         setup()
+        fetchFollows()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +43,10 @@ class FollowTableViewController: UIViewController {
         
     private func fetchFollows() {
         
+        users.removeAll()
+        followArray.removeAll()
         indicator.startAnimating()
+        
         if userId == "" {
             userId = User.currentUserId()
         }
@@ -118,7 +124,11 @@ extension FollowTableViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "OtherVC", sender: users[indexPath.row].uid)
+        if let uid = users[indexPath.row].uid {
+            if uid != User.currentUserId() {
+                performSegue(withIdentifier: "OtherVC", sender: uid)
+            }
+        }
     }
 }
 

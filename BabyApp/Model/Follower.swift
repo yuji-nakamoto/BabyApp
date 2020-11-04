@@ -57,22 +57,6 @@ class Follower {
         }
     }
     
-    class func checkFollower(_ userId: String, completion: @escaping(Follower) -> Void) {
-        
-        COLLECTION_FOLLOWER.document(userId).collection(IS_FOLLOWER).document(User.currentUserId()).getDocument { (snapshot, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-      
-            if snapshot?.data() == nil {
-                completion(Follower(dict: [IS_FOLLOWER: false]))
-            }
-            guard let dict = snapshot?.data() else { return }
-            let follower = Follower(dict: dict)
-            completion(follower)
-        }
-    }
-    
     class func fetchFollowerCount(_ userId: String, completion: @escaping(Follower) -> Void) {
         
         COLLECTION_FOLLOWER.document(userId).collection("follower").document("follower").getDocument { (snapshot, error) in

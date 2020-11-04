@@ -13,8 +13,10 @@ class TweetTableViewController: UIViewController {
     
     // MARK: - Properties
     
+    @IBOutlet weak var bannerBackView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bannerView: GADBannerView!
+    @IBOutlet weak var centerBannerView: GADBannerView!
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var hintVIew: UIView!
@@ -31,8 +33,8 @@ class TweetTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // setupBanner()
-        testBanner()
+         setupBanner()
+//        testBanner()
         
         setup()
         fetchUser()
@@ -43,6 +45,7 @@ class TweetTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        showBannerView()
         if UserDefaults.standard.object(forKey: REFRESH) != nil {
             fetchTweet()
             UserDefaults.standard.removeObject(forKey: REFRESH)
@@ -57,6 +60,12 @@ class TweetTableViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
+    @IBAction func closeButtonPressed(_ sender: Any) {
+        
+        UserDefaults.standard.removeObject(forKey: SHOW_BANNER)
+        bannerBackView.isHidden = true
+    }
     
     @objc func refreshTableView(){
         UserDefaults.standard.set(true, forKey: ON_REFRESH)
@@ -155,8 +164,16 @@ class TweetTableViewController: UIViewController {
         }
     }
     
+    private func showBannerView() {
+        
+        if UserDefaults.standard.object(forKey: SHOW_BANNER) != nil {
+            bannerBackView.isHidden = false
+        }
+    }
+    
     private func setup() {
         
+        bannerBackView.isHidden = true
         plusButton.isHidden = true
         plusBackView.isHidden = true
         registerButton.isHidden = true
@@ -174,6 +191,9 @@ class TweetTableViewController: UIViewController {
     
     private func setupBanner() {
         
+        centerBannerView.adUnitID = "ca-app-pub-4750883229624981/8230449518"
+        centerBannerView.rootViewController = self
+        centerBannerView.load(GADRequest())
         bannerView.adUnitID = "ca-app-pub-4750883229624981/8230449518"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
@@ -181,6 +201,9 @@ class TweetTableViewController: UIViewController {
     
     private func testBanner() {
         
+        centerBannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        centerBannerView.rootViewController = self
+        centerBannerView.load(GADRequest())
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())

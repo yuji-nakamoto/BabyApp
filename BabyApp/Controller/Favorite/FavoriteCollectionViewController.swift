@@ -62,8 +62,8 @@ class FavoriteCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupBanner()
-        testBanner()
+        setupBanner()
+//        testBanner()
         setup()
         setSounds()
     }

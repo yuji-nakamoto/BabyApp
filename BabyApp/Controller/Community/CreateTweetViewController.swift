@@ -20,6 +20,8 @@ class CreateTweetViewController: UIViewController {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     private var user = User()
+    private var follower = Follower()
+    private var followers = [Follower]()
     private var pleaceholderLbl = UILabel()
     private var contentsImage: UIImage?
     
@@ -30,6 +32,7 @@ class CreateTweetViewController: UIViewController {
         setup()
         setupTextView()
         fetchUser()
+        fetchFollower()
     }
     
     // MARK: - Actions
@@ -57,7 +60,23 @@ class CreateTweetViewController: UIViewController {
         }
     }
     
+    private func fetchFollower() {
+        
+        Follower.fetchFollowers(User.currentUserId()) { (follower) in
+            self.followers.append(follower)
+        }
+    }
+    
     // MARK: - Helpers
+    
+    private func incrementAppBadgeCount() {
+        
+        followers.forEach { (follow) in
+            sendRequestNotification2(userId: follow.uid,
+                                     message: "\(self.user.username!)さんの投稿です",
+                                     badge: self.user.appBadgeCount + 1)
+        }
+    }
     
     private func saveTweet() {
         
@@ -74,11 +93,13 @@ class CreateTweetViewController: UIViewController {
             
             Tweet.saveTweet(tweetId: tweetId, withValue: dict)
             Tweet.saveFeed(tweetId: tweetId, withValue: dict)
-          
+            
             indicator.stopAnimating()
+            incrementAppBadgeCount()
             UserDefaults.standard.set(true, forKey: REFRESH)
+            UserDefaults.standard.set(true, forKey: SHOW_BANNER)
             dismiss(animated: true, completion: nil)
-
+            
         } else {
             
             contentsImageView.alpha = 0.5
@@ -90,12 +111,14 @@ class CreateTweetViewController: UIViewController {
                             CONTENTS_IMAGE_URL: imageUrl,
                             TIMESTAMP: Timestamp(date: Date()),
                             TEXT: textView.text as Any] as [String : Any]
-            
+                
                 Tweet.saveTweet(tweetId: tweetId, withValue: dict)
                 Tweet.saveFeed(tweetId: tweetId, withValue: dict)
                 indicator.stopAnimating()
+                incrementAppBadgeCount()
                 contentsImageView.alpha = 1
                 UserDefaults.standard.set(true, forKey: REFRESH)
+                UserDefaults.standard.set(true, forKey: SHOW_BANNER)
                 dismiss(animated: true, completion: nil)
             }
         }

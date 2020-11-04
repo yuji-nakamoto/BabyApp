@@ -154,6 +154,8 @@ class EnterProfileImageViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [self] in
             hud.dismiss()
             UserDefaults.standard.set(true, forKey: IS_LOGIN)
+            UserDefaults.standard.set(true, forKey: PUSH_POST)
+            UserDefaults.standard.set(true, forKey: PUSH_FOLLOW)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let tabVC = storyboard.instantiateViewController(withIdentifier: "TabVC")
             self.present(tabVC, animated: true, completion: nil)

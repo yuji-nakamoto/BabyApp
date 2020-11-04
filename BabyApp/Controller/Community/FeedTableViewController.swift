@@ -30,24 +30,17 @@ class FeedTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // setupBanner()
-        testBanner()
+         setupBanner()
+//        testBanner()
         
         setup()
         fetchFollows()
-        fetchUser()
-        if UserDefaults.standard.object(forKey: REFRESH) == nil {
-            fetchFeedTweet()
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if UserDefaults.standard.object(forKey: REFRESH) != nil {
-            fetchFeedTweet()
-            UserDefaults.standard.removeObject(forKey: REFRESH)
-        }
+        fetchUser()
+        fetchFeedTweet()
     }
     
     // MARK: - Actions
@@ -72,10 +65,15 @@ class FeedTableViewController: UIViewController {
         Follow.fetchFollows(User.currentUserId()) { (follow) in
             if follow.uid == "" {
                 self.indicator.stopAnimating()
+                self.refresh.endRefreshing()
                 return
             }
 
             Tweet.fetchFeed(follow.uid) { (tweet) in
+                if tweet.tweetId == "" {
+                    self.indicator.stopAnimating()
+                    return
+                }
                 self.fetchUser(tweet.uid) {
                     self.tweets.append(tweet)
                     self.tableView.reloadData()
@@ -111,6 +109,7 @@ class FeedTableViewController: UIViewController {
                 return
             }
             self.user = user
+            self.resetBadge(self.user)
             self.plusButton.isHidden = false
             self.plusBackView.isHidden = false
             self.tableView.reloadData()
@@ -118,6 +117,14 @@ class FeedTableViewController: UIViewController {
     }
     
     // MARK: - Helpers
+    
+    private func resetBadge(_ user: User) {
+        
+        let totalAppBadgeCount = user.appBadgeCount - user.communityBadgeCount
+        
+        updateUser(withValue: [COMMUNITY_BADGE_COUNT: 0, APP_BADGE_COUNT: totalAppBadgeCount])
+        UIApplication.shared.applicationIconBadgeNumber = totalAppBadgeCount
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         

@@ -16,7 +16,6 @@ class SoundTableViewCell: UITableViewCell {
     @IBOutlet weak var pauseImageView: UIImageView!
     @IBOutlet weak var pauseImageButton: UIView!
     @IBOutlet weak var slider: UISlider!
-    @IBOutlet weak var hosizoraImageView: UIImageView!
     
     var soundText: String?
     var sounds: String?
@@ -35,11 +34,11 @@ class SoundTableViewCell: UITableViewCell {
         pauseImageButton.addGestureRecognizer(tap2)
         soundNameLbl.addGestureRecognizer(tap)
         
-        soundNameLbl.isUserInteractionEnabled = true
         soundNameLbl.layer.cornerRadius = 50 / 2
         soundNameLbl.layer.borderWidth = 1.5
         soundNameLbl.layer.borderColor = UIColor.white.cgColor
-        hosizoraImageView.layer.cornerRadius = 50 / 2
+        soundNameLbl.backgroundColor = .clear
+        soundNameLbl.alpha = 1
         slider.value = 15
         pauseImageView.alpha = 0
         pauseImageButton.alpha = 0

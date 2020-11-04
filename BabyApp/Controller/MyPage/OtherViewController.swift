@@ -15,11 +15,12 @@ class OtherViewController: UIViewController {
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     private var user = User()
+    private var currentUser = User()
     private var follow = Follow()
     private var followCount = Follow()
-    private var followOtherCount = Follow()
     private var followerCount = Follower()
-    private var checkFollower = Follower()
+    private var followOtherCount = Follow()
+    private var checkFollow = Follow()
     private var tweets = [Tweet]()
     private var block = Block()
     var userId = ""
@@ -28,8 +29,8 @@ class OtherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupBanner()
-        testBanner()
+        setupBanner()
+//        testBanner()
         fetchUser()
         setup()
     }
@@ -42,7 +43,8 @@ class OtherViewController: UIViewController {
         fetchOtherFollowCount()
         fetchOtherTweet()
         fetchBlockUser()
-        checkIsFollower()
+        checkIsFollow()
+        fetchCurrentUser()
         navigationController?.navigationBar.isHidden = false
     }
     
@@ -65,6 +67,14 @@ class OtherViewController: UIViewController {
     }
     
     // MARK: - Fetch
+    
+    private func fetchCurrentUser() {
+        
+        User.fetchUser(User.currentUserId()) { (currentUser) in
+            self.currentUser = currentUser
+            self.tableView.reloadData()
+        }
+    }
     
     private func fetchUser() {
         
@@ -92,6 +102,7 @@ class OtherViewController: UIViewController {
             self.tableView.reloadData()
         }
     }
+    
     private func fetchOtherFollowCount() {
         
         Follow.fetchFollowCount(userId) { [self] (follow) in
@@ -125,10 +136,10 @@ class OtherViewController: UIViewController {
         }
     }
     
-    private func checkIsFollower() {
+    private func checkIsFollow() {
         
-        Follower.checkFollower(userId) { (check) in
-            self.checkFollower = check
+        Follow.checkFollow(userId) { (check) in
+            self.checkFollow = check
         }
     }
     
@@ -203,10 +214,11 @@ extension OtherViewController: UITableViewDelegate, UITableViewDataSource {
             cell.otherVC = self
             cell.block = self.block
             cell.user = self.user
+            cell.currentUser = self.currentUser
             cell.follow = self.follow
             cell.followCount = self.followCount
             cell.followerCount = self.followerCount
-            cell.configureOtherCell(self.user, self.follow, self.followerCount, self.followOtherCount, self.checkFollower)
+            cell.configureOtherCell(self.user, self.follow, self.followerCount, self.followOtherCount, self.checkFollow)
             return cell
         }
         

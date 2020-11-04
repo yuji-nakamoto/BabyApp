@@ -18,6 +18,9 @@ class User {
     var inquiry: String!
     var opinion: String!
     var report: String!
+    var appBadgeCount: Int!
+    var myPageBadgeCount: Int!
+    var communityBadgeCount: Int!
     
     init() {
     }
@@ -31,13 +34,15 @@ class User {
         inquiry = dict[INQUIRY] as? String ?? ""
         opinion = dict[OPINION] as? String ?? ""
         report = dict[REPORT] as? String ?? ""
+        appBadgeCount = dict[APP_BADGE_COUNT] as? Int ?? 0
+        myPageBadgeCount = dict[MYPAGE_BADGE_COUNT] as? Int ?? 0
+        communityBadgeCount = dict[COMMUNITY_BADGE_COUNT] as? Int ?? 0
     }
     
     // MARK: - Return user
     
     class func currentUserId() -> String {
         guard Auth.auth().currentUser != nil else { return "fCaTJRVce0eDLoxZAe2xLubNy893" }
-        
         return Auth.auth().currentUser!.uid
     }
     
@@ -85,6 +90,19 @@ class User {
                 let user = User(dict: dictionary as [String: Any])
                 completion(user)
             })
+        }
+    }
+    
+    class func fetchUserAddSnapshotListener(completion: @escaping(User) -> Void) {
+        guard Auth.auth().currentUser != nil else { return }
+        
+        COLLECTION_USERS.document(User.currentUserId()).addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                print("Error fetch user add snapshot listener: \(error.localizedDescription)")
+            }
+            guard let dict = snapshot?.data() else { return }
+            let user = User(dict: dict)
+            completion(user)
         }
     }
 }

@@ -27,8 +27,8 @@ class AnimalTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        setupBanner()
-        testBanner()
+        setupBanner()
+//        testBanner()
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
     }
