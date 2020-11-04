@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 import AVFoundation
 
 class TutorialViewController: UIViewController {
@@ -53,7 +54,7 @@ class TutorialViewController: UIViewController {
         
         seekBar.minimumValue = 0
         seekBar.maximumValue = Float(CMTimeGetSeconds(avAsset.duration))
-                
+        
         let interval : Double = Double(0.5 * seekBar.maximumValue) / Double(seekBar.bounds.maxX)
         
         let time : CMTime = CMTimeMakeWithSeconds(interval, preferredTimescale: Int32(NSEC_PER_SEC))
@@ -67,6 +68,25 @@ class TutorialViewController: UIViewController {
         })
         videoPlayer.seek(to: CMTimeMakeWithSeconds(0, preferredTimescale: Int32(NSEC_PER_SEC)))
         videoPlayer.play()
+    }
+    
+    @IBAction func starButtonPressed(_ sender: Any) {
+        
+        let animationView = AnimationView(name: "star")
+        animationView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
+        animationView.center = self.view.center
+        animationView.loopMode = .playOnce
+        animationView.contentMode = .scaleAspectFill
+        animationView.animationSpeed = 1
+        
+        view.addSubview(animationView)
+        animationView.play()
+        
+        animationView.play { finished in
+            if finished {
+                animationView.removeFromSuperview()
+            }
+        }
     }
     
     @IBAction func onSider(_ sender: UISlider) {

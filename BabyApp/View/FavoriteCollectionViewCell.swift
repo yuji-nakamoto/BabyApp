@@ -16,6 +16,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var playImageView: UIImageView!
     @IBOutlet weak var releaseButton: UIButton!
     @IBOutlet weak var slider: UISlider!
+    @IBOutlet weak var backImageView: UIImageView!
     
     var soundText: String?
     var sounds: String?
@@ -28,6 +29,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        backImageView.layer.cornerRadius = 70 / 2
         playBackImageView.layer.cornerRadius = 70 / 2
         playBackImageView.layer.borderWidth = 2
         playBackImageView.layer.borderColor = UIColor.white.cgColor
@@ -84,9 +86,9 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             UIView.animate(withDuration: 0.3) { [self] in
                 releaseButton.alpha = 0
                 playImageView.image = UIImage(systemName: "pause.fill")
-                playBackImageView.backgroundColor = .systemGray
-                playBackImageView.layer.borderColor = UIColor.systemGray.cgColor
-                playBackImageView.alpha = 0.5
+                playBackImageView.backgroundColor = .darkGray
+                playBackImageView.layer.borderColor = UIColor.darkGray.cgColor
+                playBackImageView.alpha = 0.8
             }
         } else {
             

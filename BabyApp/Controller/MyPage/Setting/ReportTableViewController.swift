@@ -15,8 +15,6 @@ class ReportTableViewController: UITableViewController {
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var ageLabel: UILabel!
-    @IBOutlet weak var residenceLabel: UILabel!
     @IBOutlet weak var reportLabel: UILabel!
     @IBOutlet weak var inputLabel: UILabel!
     @IBOutlet weak var sendButton: UIButton!
