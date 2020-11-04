@@ -16,9 +16,12 @@ class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var emailLineView: UIView!
+    @IBOutlet weak var emailTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var emailLIneHeight: NSLayoutConstraint!
     
     private var hud = JGProgressHUD(style: .dark)
-    private let emailTextField = HoshiTextField(frame: CGRect(x: 40, y: 230, width: 300, height: 60))
     
     // MARK: - Lifecycle
 
@@ -72,13 +75,10 @@ class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
 
     private func setupUI() {
         
-        emailTextField.placeholderColor = .systemBlue
-        emailTextField.borderActiveColor = UIColor(named: O_RED)
-        emailTextField.borderInactiveColor = .systemBlue
-        emailTextField.font = UIFont(name: "HiraMaruProN-W4", size: 18)
-        emailTextField.placeholder = "メールアドレス"
+        emailTextField.delegate = self
         emailTextField.keyboardType = .emailAddress
-        self.view.addSubview(emailTextField)
+        emailTextField.addTarget(self, action: #selector(emailTextFieldTap), for: .editingDidBegin)
+        emailTextField.addTarget(self, action: #selector(emailLabelDown), for: .editingDidEnd)
         
         descriptionLabel.text = "リセットメールを送信後、届いたメールに記載しているURLを開いて、新しいパスワードを登録してください。"
         sendButton.isEnabled = true
@@ -86,8 +86,20 @@ class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
         backButton.layer.cornerRadius = 44 / 2
         backButton.layer.borderWidth = 1
         backButton.layer.borderColor = UIColor.systemBlue.cgColor
-        
-        emailTextField.delegate = self
+    }
+    
+    @objc func emailTextFieldTap() {
+        emailTopConstraint.constant = 20
+        emailLIneHeight.constant = 2
+        emailLineView.backgroundColor = UIColor(named: O_RED)
+    }
+    
+    @objc func emailLabelDown() {
+        if emailTextField.text == "" {
+            emailTopConstraint.constant = 40
+            emailLIneHeight.constant = 1
+            emailLineView.backgroundColor = UIColor.systemBlue
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

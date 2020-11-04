@@ -16,16 +16,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var descriptionlabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var dismissButton: UIButton!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var emailLineView: UIView!
+    @IBOutlet weak var passwordLineView: UIView!
+    @IBOutlet weak var emailTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var passwordTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var emailLIneHeight: NSLayoutConstraint!
+    @IBOutlet weak var passwordLineHeight: NSLayoutConstraint!
     
     private var hud = JGProgressHUD(style: .dark)
-    private let emailTextField = HoshiTextField(frame: CGRect(x: 40, y: 190, width: 300, height: 60))
-    private let passwordTextField = HoshiTextField(frame: CGRect(x: 40, y: 250, width: 300, height: 60))
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        setup()
     }
     
     // MARK: - Actions    
@@ -66,23 +72,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Helpers
     
-    private func setupUI() {
-        
-        emailTextField.placeholderColor = .systemBlue
-        emailTextField.borderActiveColor = UIColor(named: O_RED)
-        emailTextField.borderInactiveColor = .systemBlue
-        emailTextField.font = UIFont(name: "HiraMaruProN-W4", size: 18)
-        emailTextField.placeholder = "メールアドレス"
-        emailTextField.keyboardType = .emailAddress
-        self.view.addSubview(emailTextField)
-        
-        passwordTextField.placeholderColor = .systemBlue
-        passwordTextField.borderActiveColor = UIColor(named: O_RED)
-        passwordTextField.borderInactiveColor = .systemBlue
-        passwordTextField.font = UIFont(name: "HiraMaruProN-W4", size: 18)
-        passwordTextField.isSecureTextEntry = true
-        passwordTextField.placeholder = "パスワード"
-        self.view.addSubview(passwordTextField)
+    private func setup() {
         
         descriptionlabel.text = "メールアドレスとパスワードを\n入力してください。"
         loginButton.layer.cornerRadius = 44 / 2
@@ -90,8 +80,41 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         dismissButton.layer.borderWidth = 1
         dismissButton.layer.borderColor = UIColor.systemBlue.cgColor
         
+        emailTextField.keyboardType = .emailAddress
         emailTextField.delegate = self
         passwordTextField.delegate = self
+        emailTextField.addTarget(self, action: #selector(emailTextFieldTap), for: .editingDidBegin)
+        passwordTextField.addTarget(self, action: #selector(passwordTextFieldTap), for: .editingDidBegin)
+        emailTextField.addTarget(self, action: #selector(emailLabelDown), for: .editingDidEnd)
+        passwordTextField.addTarget(self, action: #selector(passwordLabelDown), for: .editingDidEnd)
+    }
+    
+    @objc func emailTextFieldTap() {
+        emailTopConstraint.constant = 20
+        emailLIneHeight.constant = 2
+        emailLineView.backgroundColor = UIColor(named: O_RED)
+    }
+    
+    @objc func passwordTextFieldTap() {
+        passwordTopConstraint.constant = 20
+        passwordLineHeight.constant = 2
+        passwordLineView.backgroundColor = UIColor(named: O_RED)
+    }
+    
+    @objc func emailLabelDown() {
+        if emailTextField.text == "" {
+            emailTopConstraint.constant = 40
+            emailLIneHeight.constant = 1
+            emailLineView.backgroundColor = UIColor.systemBlue
+        }
+    }
+    
+    @objc func passwordLabelDown() {
+        if passwordTextField.text == "" {
+            passwordTopConstraint.constant = 40
+            passwordLineHeight.constant = 1
+            passwordLineView.backgroundColor = UIColor.systemBlue
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

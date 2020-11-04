@@ -202,8 +202,11 @@ class SettingTableViewController: UITableViewController {
                 this.present(libraryPicker, animated: true, completion: nil)
             }
         })
-        
         let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel)
+        let screenSize = UIScreen.main.bounds
+        
+        alert.popoverPresentationController?.sourceView = self.view
+        alert.popoverPresentationController?.sourceRect = CGRect(x: screenSize.size.width/2, y: screenSize.size.height, width: 0, height: 0)
         alert.addAction(cancelAction)
         alert.addAction(cameraAction)
         alert.addAction(galleryAction)
@@ -235,10 +238,10 @@ class SettingTableViewController: UITableViewController {
                 }
             }
             let cancel = UIAlertAction(title: "キャンセル", style: .cancel)
-//            let screenSize = UIScreen.main.bounds
-
-//            alert.popoverPresentationController?.sourceView = self.view
-//            alert.popoverPresentationController?.sourceRect = CGRect(x: screenSize.size.width/2, y: screenSize.size.height, width: 0, height: 0)
+            let screenSize = UIScreen.main.bounds
+            
+            alert.popoverPresentationController?.sourceView = self.view
+            alert.popoverPresentationController?.sourceRect = CGRect(x: screenSize.size.width/2, y: screenSize.size.height, width: 0, height: 0)
             alert.addAction(loguout)
             alert.addAction(cancel)
             self.present(alert,animated: true,completion: nil)

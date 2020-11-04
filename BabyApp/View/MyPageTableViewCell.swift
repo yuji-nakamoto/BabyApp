@@ -80,14 +80,17 @@ class MyPageTableViewCell: UITableViewCell {
     
     @IBAction func reportButtonPressed(_ sender: Any) {
         
-        let alert: UIAlertController = UIAlertController(title: "", message: "\(user.username ?? "")さんを", preferredStyle: .actionSheet)
-        let block: UIAlertAction = UIAlertAction(title: "ブロックする", style: UIAlertAction.Style.default) { [self] (alert) in
+        let alert = UIAlertController(title: "", message: "\(user.username ?? "")さんを", preferredStyle: .actionSheet)
+        let block = UIAlertAction(title: "ブロックする", style: UIAlertAction.Style.default) { [self] (alert) in
             otherVC?.performSegue(withIdentifier: "BlockVC", sender: self.user.uid)
         }
-        let report: UIAlertAction = UIAlertAction(title: "通報する", style: UIAlertAction.Style.default) { [self] (alert) in
+        let report = UIAlertAction(title: "通報する", style: UIAlertAction.Style.default) { [self] (alert) in
             otherVC?.performSegue(withIdentifier: "ReportVC", sender: self.user.uid)
         }
         let cancel = UIAlertAction(title: "キャンセル", style: .cancel)
+        let screenSize = UIScreen.main.bounds
+        alert.popoverPresentationController?.sourceView = otherVC?.view
+        alert.popoverPresentationController?.sourceRect = CGRect(x: screenSize.size.width/2, y: screenSize.size.height, width: 0, height: 0)
         
         if self.block.isBlock == 1 {
             alert.addAction(report)
@@ -121,7 +124,9 @@ class MyPageTableViewCell: UITableViewCell {
                 }
             }
             let cancel = UIAlertAction(title: "キャンセル", style: .cancel)
-            
+            let screenSize = UIScreen.main.bounds
+            alert.popoverPresentationController?.sourceView = otherVC?.view
+            alert.popoverPresentationController?.sourceRect = CGRect(x: screenSize.size.width/2, y: screenSize.size.height, width: 0, height: 0)
             alert.addAction(release)
             alert.addAction(cancel)
             otherVC?.present(alert,animated: true,completion: nil)
@@ -146,6 +151,9 @@ class MyPageTableViewCell: UITableViewCell {
             }
             let cancel = UIAlertAction(title: "キャンセル", style: .cancel)
             
+            let screenSize = UIScreen.main.bounds
+            alert.popoverPresentationController?.sourceView = otherVC?.view
+            alert.popoverPresentationController?.sourceRect = CGRect(x: screenSize.size.width/2, y: screenSize.size.height, width: 0, height: 0)
             alert.addAction(release)
             alert.addAction(cancel)
             otherVC?.present(alert,animated: true,completion: nil)

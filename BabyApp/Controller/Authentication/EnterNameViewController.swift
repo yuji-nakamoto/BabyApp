@@ -20,9 +20,12 @@ class EnterNameViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var requiredLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var nameLineView: UIView!
+    @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var nameLIneHeight: NSLayoutConstraint!
     
     private var hud = JGProgressHUD(style: .dark)
-    private let nameTextField = HoshiTextField(frame: CGRect(x: 40, y: 190, width: 300, height: 60))
 
     // MARK: - Lifecycle
     
@@ -70,21 +73,30 @@ class EnterNameViewController: UIViewController {
     
     private func setupUI() {
         
-        nameTextField.placeholderColor = .systemBlue
-        nameTextField.borderActiveColor = UIColor(named: O_RED)
-        nameTextField.borderInactiveColor = .systemBlue
-        nameTextField.font = UIFont(name: "HiraMaruProN-W4", size: 18)
-        nameTextField.placeholder = "ニックネーム"
+        nameTextField.addTarget(self, action: #selector(nameTextFieldTap), for: .editingDidBegin)
+        nameTextField.addTarget(self, action: #selector(nameLabelDown), for: .editingDidEnd)
+        nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         nameTextField.keyboardType = .emailAddress
-        self.view.addSubview(nameTextField)
         
         nameLabel.text = "-"
         requiredLabel.layer.borderWidth = 1
         requiredLabel.layer.borderColor = UIColor.systemBlue.cgColor
         descriptionLabel.text = "ニックネームを10文字以下で入力してください。\nニックネームはあとで変更することができます。"
         nextButton.layer.cornerRadius = 44 / 2
-        
-        nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+    }
+    
+    @objc func nameTextFieldTap() {
+        nameTopConstraint.constant = 20
+        nameLIneHeight.constant = 2
+        nameLineView.backgroundColor = UIColor(named: O_RED)
+    }
+    
+    @objc func nameLabelDown() {
+        if nameTextField.text == "" {
+            nameTopConstraint.constant = 40
+            nameLIneHeight.constant = 1
+            nameLineView.backgroundColor = UIColor.systemBlue
+        }
     }
     
     @objc func textFieldDidChange() {

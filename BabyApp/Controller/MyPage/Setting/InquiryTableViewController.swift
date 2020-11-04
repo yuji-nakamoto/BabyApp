@@ -17,16 +17,19 @@ class InquiryTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var inquiryLabel: UILabel!
     @IBOutlet weak var inputLabel: UILabel!
     @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var emailLineView: UIView!
+    @IBOutlet weak var emailTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var emailLIneHeight: NSLayoutConstraint!
     
     private var currentUser = User()
     private var hud = JGProgressHUD(style: .dark)
-    private let emailTextField = HoshiTextField(frame: CGRect(x: 35, y: 250, width: 315, height: 60))
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,20 +95,30 @@ class InquiryTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-    private func setupUI() {
+    private func setup() {
         navigationController?.navigationBar.titleTextAttributes
             = [NSAttributedString.Key.font: UIFont(name: "HiraMaruProN-W4", size: 15)!, .foregroundColor: UIColor.white]
         navigationItem.title = "お問い合わせ"
         sendButton.layer.cornerRadius = 15
-        emailTextField.delegate = self
         
-        emailTextField.placeholderColor = UIColor.systemBlue
-        emailTextField.borderActiveColor = UIColor(named: O_RED)
-        emailTextField.borderInactiveColor = UIColor.systemBlue
-        emailTextField.font = UIFont(name: "HiraMaruProN-W4", size: 18)
-        emailTextField.placeholder = "メールアドレス"
+        emailTextField.delegate = self
+        emailTextField.addTarget(self, action: #selector(emailTextFieldTap), for: .editingDidBegin)
+        emailTextField.addTarget(self, action: #selector(emailLabelDown), for: .editingDidEnd)
         emailTextField.keyboardType = .emailAddress
-        self.view.addSubview(emailTextField)
+    }
+    
+    @objc func emailTextFieldTap() {
+        emailTopConstraint.constant = 20
+        emailLIneHeight.constant = 2
+        emailLineView.backgroundColor = UIColor(named: O_RED)
+    }
+    
+    @objc func emailLabelDown() {
+        if emailTextField.text == "" {
+            emailTopConstraint.constant = 40
+            emailLIneHeight.constant = 1
+            emailLineView.backgroundColor = UIColor.systemBlue
+        }
     }
     
     private func setupUserInfo(_ currentUser: User) {
@@ -117,6 +130,16 @@ class InquiryTableViewController: UITableViewController, UITextFieldDelegate {
         } else {
             inquiryLabel.text = currentUser.inquiry
             inputLabel.isHidden = true
+        }
+        
+        if emailTextField.text == "" {
+            emailTopConstraint.constant = 40
+            emailLIneHeight.constant = 1
+            emailLineView.backgroundColor = UIColor.systemBlue
+        } else {
+            emailTopConstraint.constant = 20
+            emailLIneHeight.constant = 2
+            emailLineView.backgroundColor = UIColor(named: O_RED)
         }
     }
     

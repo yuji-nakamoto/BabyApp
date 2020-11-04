@@ -145,12 +145,11 @@ class CreateTweetViewController: UIViewController {
         let pleaceholderY: CGFloat = -10
         let pleaceholderWidth: CGFloat = textView.bounds.width - pleaceholderX
         let pleaceholderHeight: CGFloat = textView.bounds.height
-        let pleaceholderFontSize = self.view.frame.size.width / 25
         
         pleaceholderLbl.frame = CGRect(x: pleaceholderX, y: pleaceholderY, width: pleaceholderWidth, height: pleaceholderHeight)
         pleaceholderLbl.text = "子育てに関すること等、投稿しよう"
-        pleaceholderLbl.font = UIFont(name: "HelveticaNeue", size: pleaceholderFontSize)
-        pleaceholderLbl.textColor = .systemGray4
+        pleaceholderLbl.font = UIFont(name: "HiraMaruProN-W4", size: 15)
+        pleaceholderLbl.textColor = .systemGray
         pleaceholderLbl.textAlignment = .left
         
         textView.addSubview(pleaceholderLbl)
@@ -206,6 +205,10 @@ class CreateTweetViewController: UIViewController {
             (action: UIAlertAction!) -> Void in
             print("キャンセル")
         })
+        
+        let screenSize = UIScreen.main.bounds
+        alert.popoverPresentationController?.sourceView = self.view
+        alert.popoverPresentationController?.sourceRect = CGRect(x: screenSize.size.width/2, y: screenSize.size.height, width: 0, height: 0)
         alert.addAction(cancelAction)
         alert.addAction(cameraAction)
         alert.addAction(galleryAction)
