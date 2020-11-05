@@ -105,7 +105,7 @@ class MyPageViewController: UIViewController {
     
     private func setupBanner() {
         
-        bannerView.adUnitID = "ca-app-pub-4750883229624981/8230449518"
+        bannerView.adUnitID = "ca-app-pub-4750883229624981/6418139939"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
     }

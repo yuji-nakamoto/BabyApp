@@ -26,7 +26,9 @@ class SoundTableViewCell: UITableViewCell {
     var animalVC: AnimalTableViewController?
     var natureVC: NatureTableViewController?
     private var player1 = AVAudioPlayer()
+    private var player2 = AVAudioPlayer()
     private var hud = JGProgressHUD(style: .dark)
+    private let soundFilePath = Bundle.main.path(forResource: "decision", ofType: "mp3")
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -52,12 +54,24 @@ class SoundTableViewCell: UITableViewCell {
         soundNameLbl.text = soundText
     }
     
-    func setupSound() {
+    func setupSound1() {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
             do {
                 try player1 = AVAudioPlayer(contentsOf: URL(fileURLWithPath: sounds!))
                 player1.prepareToPlay()
+            } catch  {
+                print("Error sound", error.localizedDescription)
+            }
+        }
+    }
+    
+    func setupSound2() {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+            do {
+                try player2 = AVAudioPlayer(contentsOf: URL(fileURLWithPath: soundFilePath!))
+                player2.prepareToPlay()
             } catch  {
                 print("Error sound", error.localizedDescription)
             }
@@ -137,6 +151,24 @@ class SoundTableViewCell: UITableViewCell {
         let veritification = UIAlertAction(title: "確認", style: .cancel)
         let cancel = UIAlertAction(title: "キャンセル", style: .cancel)
         let registration = UIAlertAction(title: "登録する", style: UIAlertAction.Style.default) { [self] (alert) in
+            
+            player2.play()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [self] in
+                let rollingAnimation = CABasicAnimation(keyPath: "transform.rotation")
+                rollingAnimation.fromValue = 0
+                rollingAnimation.toValue = CGFloat.pi * -0.1
+                rollingAnimation.duration = 0.1
+                rollingAnimation.repeatDuration = CFTimeInterval.zero
+                favoButton.layer.add(rollingAnimation, forKey: "rollingImage")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    let rollingAnimation = CABasicAnimation(keyPath: "transform.rotation")
+                    rollingAnimation.fromValue = 0
+                    rollingAnimation.toValue = CGFloat.pi * 0.1
+                    rollingAnimation.duration = 0.1
+                    rollingAnimation.repeatDuration = CFTimeInterval.zero
+                    favoButton.layer.add(rollingAnimation, forKey: "rollingImage")
+                }
+            }
             
             if soundNameLbl.text == "ビニール袋" {
                 setupHudSuccess1()
@@ -338,6 +370,9 @@ class SoundTableViewCell: UITableViewCell {
             funVC?.tableView.reloadData()
             animalVC?.tableView.reloadData()
             natureVC?.tableView.reloadData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                player2.stop()
+            }
         }
         
         if favoButton.alpha == 0.5 {

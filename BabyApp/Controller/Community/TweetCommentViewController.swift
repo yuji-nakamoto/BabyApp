@@ -36,16 +36,9 @@ class TweetCommentViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBanner()
-//        testBanner()
-
         setup()
         fetchTweet()
         fetchCurrentUser()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -71,7 +64,8 @@ class TweetCommentViewController: UIViewController, UITextFieldDelegate {
                     COMMENT: textField.text as Any,
                     DATE: date,
                     TIMESTAMP: Timestamp(date: Date()),
-                    TWEETID: tweetId]
+                    TWEETID: tweetId,
+                    COMMENTID: commentId]
         Tweet.saveTweetComment(tweetId: tweetId, commentId: commentId, withValue: dict)
         Tweet.updateCommentCount(tweetId: tweetId,
                                  withValue: [COMMENTCOUNT: tweet2.commentCount + 1])
@@ -176,14 +170,7 @@ class TweetCommentViewController: UIViewController, UITextFieldDelegate {
     
     private func setupBanner() {
         
-        bannerView.adUnitID = "ca-app-pub-4750883229624981/8230449518"
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
-    }
-    
-    private func testBanner() {
-        
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.adUnitID = "ca-app-pub-4750883229624981/8953298775"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
     }

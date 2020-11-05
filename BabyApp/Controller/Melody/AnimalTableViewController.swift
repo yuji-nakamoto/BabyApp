@@ -28,21 +28,21 @@ class AnimalTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBanner()
-//        testBanner()
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
     }
     
-    private func setupBanner() {
-        
-        bannerView.adUnitID = "ca-app-pub-4750883229624981/8230449518"
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if UserDefaults.standard.object(forKey: SOUND_RELOAD3) != nil {
+            tableView.reloadData()
+            UserDefaults.standard.removeObject(forKey: SOUND_RELOAD3)
+        }
     }
     
-    private func testBanner() {
+    private func setupBanner() {
         
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.adUnitID = "ca-app-pub-4750883229624981/8618596167"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
     }
@@ -147,7 +147,8 @@ extension AnimalTableViewController: UITableViewDelegate, UITableViewDataSource 
         }
         
         cell.animalVC = self
-        cell.setupSound()
+        cell.setupSound1()
+        cell.setupSound2()
         cell.sounds = sounds[indexPath.row]
         cell.soundText = soundTexts[indexPath.row]
         cell.configureCell(soundText: soundTexts[indexPath.row])

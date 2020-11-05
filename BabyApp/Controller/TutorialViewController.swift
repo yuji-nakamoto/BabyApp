@@ -16,6 +16,7 @@ class TutorialViewController: UIViewController {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var starButton: UIButton!
     
     var videoPlayer: AVPlayer!
     
@@ -31,8 +32,12 @@ class TutorialViewController: UIViewController {
             skipButton.isHidden = false
             closeButton.isHidden = true
         }
-        
         setVideoPlayer()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        starAnimation()
     }
     
     private func setVideoPlayer() {
@@ -68,6 +73,41 @@ class TutorialViewController: UIViewController {
         })
         videoPlayer.seek(to: CMTimeMakeWithSeconds(0, preferredTimescale: Int32(NSEC_PER_SEC)))
         videoPlayer.play()
+    }
+    
+    private func starAnimation() {
+        
+        let rollingAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rollingAnimation.fromValue = 0
+        rollingAnimation.toValue = CGFloat.pi * 0.1
+        rollingAnimation.duration = 0.1
+        rollingAnimation.repeatDuration = CFTimeInterval.zero
+        starButton.layer.add(rollingAnimation, forKey: "rollingImage")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
+            let rollingAnimation = CABasicAnimation(keyPath: "transform.rotation")
+            rollingAnimation.fromValue = 0
+            rollingAnimation.toValue = CGFloat.pi * -0.1
+            rollingAnimation.duration = 0.1
+            rollingAnimation.repeatDuration = CFTimeInterval.zero
+            starButton.layer.add(rollingAnimation, forKey: "rollingImage")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
+                let rollingAnimation = CABasicAnimation(keyPath: "transform.rotation")
+                rollingAnimation.fromValue = 0
+                rollingAnimation.toValue = CGFloat.pi * 0.1
+                rollingAnimation.duration = 0.1
+                rollingAnimation.repeatDuration = CFTimeInterval.zero
+                starButton.layer.add(rollingAnimation, forKey: "rollingImage")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
+                    let rollingAnimation = CABasicAnimation(keyPath: "transform.rotation")
+                    rollingAnimation.fromValue = 0
+                    rollingAnimation.toValue = CGFloat.pi * -0.1
+                    rollingAnimation.duration = 0.1
+                    rollingAnimation.repeatDuration = CFTimeInterval.zero
+                    starButton.layer.add(rollingAnimation, forKey: "rollingImage")
+                }
+            }
+        }
     }
     
     @IBAction func starButtonPressed(_ sender: Any) {

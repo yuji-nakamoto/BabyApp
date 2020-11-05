@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import JGProgressHUD
+import AVFoundation
 import GoogleMobileAds
 import EmptyDataSet_Swift
 
@@ -15,6 +17,7 @@ class FavoriteCollectionViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var bannerView: GADBannerView!
+    @IBOutlet weak var allReleaseButton: UIBarButtonItem!
     
     private let soundFilePath1 = Bundle.main.path(forResource: "vinyl", ofType: "mp3")
     private let soundFilePath2 = Bundle.main.path(forResource: "hairdryer", ofType: "mp3")
@@ -57,15 +60,18 @@ class FavoriteCollectionViewController: UIViewController {
     private let soundNaturePath11 = Bundle.main.path(forResource: "flog", ofType: "mp3")
     private var sounds = [String]()
     private var soundTexts = [String]()
+    private var player = AVAudioPlayer()
+    private let soundFilePath = Bundle.main.path(forResource: "wadding_up1", ofType: "mp3")
+    private var hud = JGProgressHUD(style: .dark)
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBanner()
-//        testBanner()
         setup()
         setSounds()
+        setupReleseSound()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,7 +82,98 @@ class FavoriteCollectionViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if sounds.count > 0 {
+            allReleaseButton.isEnabled = true
+        } else {
+            allReleaseButton.isEnabled = false
+        }
+    }
+    
+    @IBAction func allReleaseButtonPressed(_ sender: Any) {
+        
+        let alert = UIAlertController(title: "", message: "お気に入りをすべて解除しますか？", preferredStyle: .alert)
+        let release = UIAlertAction(title: "すべて解除する", style: UIAlertAction.Style.default) { [self] (alert) in
+            collectionView.reloadData()
+            player.play()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                UserDefaults.standard.removeObject(forKey: FAVO_SLEEP1)
+                UserDefaults.standard.removeObject(forKey: FAVO_SLEEP2)
+                UserDefaults.standard.removeObject(forKey: FAVO_SLEEP3)
+                UserDefaults.standard.removeObject(forKey: FAVO_SLEEP4)
+                UserDefaults.standard.removeObject(forKey: FAVO_SLEEP5)
+                UserDefaults.standard.removeObject(forKey: FAVO_SLEEP6)
+                UserDefaults.standard.removeObject(forKey: FAVO_SLEEP7)
+                UserDefaults.standard.removeObject(forKey: FAVO_SLEEP8)
+                UserDefaults.standard.removeObject(forKey: FAVO_SLEEP9)
+                UserDefaults.standard.removeObject(forKey: FAVO_SLEEP10)
+                UserDefaults.standard.removeObject(forKey: FAVO_FUN1)
+                UserDefaults.standard.removeObject(forKey: FAVO_FUN2)
+                UserDefaults.standard.removeObject(forKey: FAVO_FUN3)
+                UserDefaults.standard.removeObject(forKey: FAVO_FUN4)
+                UserDefaults.standard.removeObject(forKey: FAVO_FUN5)
+                UserDefaults.standard.removeObject(forKey: FAVO_FUN6)
+                UserDefaults.standard.removeObject(forKey: FAVO_FUN7)
+                UserDefaults.standard.removeObject(forKey: FAVO_FUN8)
+                UserDefaults.standard.removeObject(forKey: FAVO_FUN9)
+                UserDefaults.standard.removeObject(forKey: FAVO_ANIMAL1)
+                UserDefaults.standard.removeObject(forKey: FAVO_ANIMAL2)
+                UserDefaults.standard.removeObject(forKey: FAVO_ANIMAL3)
+                UserDefaults.standard.removeObject(forKey: FAVO_ANIMAL4)
+                UserDefaults.standard.removeObject(forKey: FAVO_ANIMAL5)
+                UserDefaults.standard.removeObject(forKey: FAVO_ANIMAL6)
+                UserDefaults.standard.removeObject(forKey: FAVO_ANIMAL7)
+                UserDefaults.standard.removeObject(forKey: FAVO_ANIMAL8)
+                UserDefaults.standard.removeObject(forKey: FAVO_ANIMAL9)
+                UserDefaults.standard.removeObject(forKey: FAVO_NATURE1)
+                UserDefaults.standard.removeObject(forKey: FAVO_NATURE2)
+                UserDefaults.standard.removeObject(forKey: FAVO_NATURE3)
+                UserDefaults.standard.removeObject(forKey: FAVO_NATURE4)
+                UserDefaults.standard.removeObject(forKey: FAVO_NATURE5)
+                UserDefaults.standard.removeObject(forKey: FAVO_NATURE6)
+                UserDefaults.standard.removeObject(forKey: FAVO_NATURE7)
+                UserDefaults.standard.removeObject(forKey: FAVO_NATURE8)
+                UserDefaults.standard.removeObject(forKey: FAVO_NATURE9)
+                UserDefaults.standard.removeObject(forKey: FAVO_NATURE10)
+                UserDefaults.standard.removeObject(forKey: FAVO_NATURE11)
+                
+                setupHudSuccess()
+                allReleaseButton.isEnabled = false
+                setSounds()
+                UserDefaults.standard.set(true, forKey: SOUND_RELOAD1)
+                UserDefaults.standard.set(true, forKey: SOUND_RELOAD2)
+                UserDefaults.standard.set(true, forKey: SOUND_RELOAD3)
+                UserDefaults.standard.set(true, forKey: SOUND_RELOAD4)
+                player.stop()
+            }
+        }
+        let cancel = UIAlertAction(title: "キャンセル", style: .cancel)
+        
+        alert.addAction(release)
+        alert.addAction(cancel)
+        present(alert,animated: true,completion: nil)
+    }
+    
     // MARK: - Helpers
+    
+    func setupReleseSound() {
+        
+        do {
+            try player = AVAudioPlayer(contentsOf: URL(fileURLWithPath: soundFilePath!))
+            player.prepareToPlay()
+        } catch  {
+            print("Error sound", error.localizedDescription)
+        }
+    }
+    
+    private func setupHudSuccess() {
+        hud.textLabel.text = "すべて解除しました"
+        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+        hud.show(in: view)
+        hud.dismiss(afterDelay: 2)
+    }
     
     private func setup() {
         
@@ -89,14 +186,7 @@ class FavoriteCollectionViewController: UIViewController {
     
     private func setupBanner() {
         
-        bannerView.adUnitID = "ca-app-pub-4750883229624981/8230449518"
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
-    }
-    
-    private func testBanner() {
-        
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.adUnitID = "ca-app-pub-4750883229624981/3173863643"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
     }

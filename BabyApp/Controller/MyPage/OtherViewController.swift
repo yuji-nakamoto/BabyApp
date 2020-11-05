@@ -30,7 +30,6 @@ class OtherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBanner()
-//        testBanner()
         fetchUser()
         setup()
     }
@@ -188,14 +187,7 @@ class OtherViewController: UIViewController {
     
     private func setupBanner() {
         
-        bannerView.adUnitID = "ca-app-pub-4750883229624981/8230449518"
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
-    }
-    
-    private func testBanner() {
-        
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.adUnitID = "ca-app-pub-4750883229624981/6418139939"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
     }

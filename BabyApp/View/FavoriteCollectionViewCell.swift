@@ -82,7 +82,6 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
         if playImageView.image == UIImage(systemName: "play.fill") {
             player1.play()
             player1.numberOfLoops = -1
-            
             UIView.animate(withDuration: 0.3) { [self] in
                 releaseButton.alpha = 0
                 playImageView.image = UIImage(systemName: "pause.fill")
@@ -272,6 +271,11 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
             
             setupHudSuccess2()
             favoVC?.viewDidLoad()
+            UserDefaults.standard.set(true, forKey: SOUND_RELOAD1)
+            UserDefaults.standard.set(true, forKey: SOUND_RELOAD2)
+            UserDefaults.standard.set(true, forKey: SOUND_RELOAD3)
+            UserDefaults.standard.set(true, forKey: SOUND_RELOAD4)
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 player2.stop()
             }

@@ -33,9 +33,7 @@ class TweetTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         setupBanner()
-//        testBanner()
-        
+        setupBanner()
         setup()
         fetchUser()
         if UserDefaults.standard.object(forKey: REFRESH) == nil {
@@ -45,7 +43,6 @@ class TweetTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        showBannerView()
         if UserDefaults.standard.object(forKey: REFRESH) != nil {
             fetchTweet()
             UserDefaults.standard.removeObject(forKey: REFRESH)
@@ -191,20 +188,10 @@ class TweetTableViewController: UIViewController {
     
     private func setupBanner() {
         
-        centerBannerView.adUnitID = "ca-app-pub-4750883229624981/8230449518"
+        centerBannerView.adUnitID = "ca-app-pub-4750883229624981/8953298775"
         centerBannerView.rootViewController = self
         centerBannerView.load(GADRequest())
-        bannerView.adUnitID = "ca-app-pub-4750883229624981/8230449518"
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
-    }
-    
-    private func testBanner() {
-        
-        centerBannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-        centerBannerView.rootViewController = self
-        centerBannerView.load(GADRequest())
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.adUnitID = "ca-app-pub-4750883229624981/8953298775"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
     }

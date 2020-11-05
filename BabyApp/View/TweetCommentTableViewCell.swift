@@ -16,6 +16,7 @@ class TweetCommentTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var commentLabel: UILabel!
+    @IBOutlet weak var deleteButton: UIButton!
     
     var tweet = Tweet()
     var tweet2 = Tweet()
@@ -32,16 +33,23 @@ class TweetCommentTableViewCell: UITableViewCell {
         profileImageView.sd_setImage(with: URL(string: user.profileImageUrl), completed: nil)
         commentLabel.text = tweet.comment
         timeLabel.text = dateString
+        
+        if user.uid == User.currentUserId() {
+            deleteButton.isHidden = false
+        } else {
+            deleteButton.isHidden = true
+        }
     }
     
     @IBAction func deleteButtonPressed(_ sender: Any) {
         
         let alert = UIAlertController(title: "削除", message: "コメントを削除しますか？", preferredStyle: .alert)
-        let delete = UIAlertAction(title: "削除する", style: UIAlertAction.Style.default) { (alert) in
+        let delete = UIAlertAction(title: "削除する", style: UIAlertAction.Style.default) { [self] (alert) in
 
             Tweet.deleteComment(tweetId: self.tweetCommentVC!.tweetId, commentId: self.tweet.commentId)
             Tweet.updateCommentCount(tweetId: self.tweetCommentVC!.tweetId,
                                      withValue: [COMMENTCOUNT: self.tweet2.commentCount - 1])
+            tweetCommentVC?.viewDidLoad()
         }
         let cancel = UIAlertAction(title: "キャンセル", style: .cancel)
         
