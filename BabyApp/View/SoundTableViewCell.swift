@@ -7,7 +7,7 @@
 
 import UIKit
 import AVFoundation
-import JGProgressHUD
+import PKHUD
 
 class SoundTableViewCell: UITableViewCell {
     
@@ -27,7 +27,6 @@ class SoundTableViewCell: UITableViewCell {
     var natureVC: NatureTableViewController?
     private var player1 = AVAudioPlayer()
     private var player2 = AVAudioPlayer()
-    private var hud = JGProgressHUD(style: .dark)
     private let soundFilePath = Bundle.main.path(forResource: "decision", ofType: "mp3")
     
     override func awakeFromNib() {
@@ -76,34 +75,6 @@ class SoundTableViewCell: UITableViewCell {
                 print("Error sound", error.localizedDescription)
             }
         }
-    }
-    
-    private func setupHudSuccess1() {
-        hud.textLabel.text = "登録しました"
-        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-        hud.show(in: (sleepVC?.view)!)
-        hud.dismiss(afterDelay: 1)
-    }
-    
-    private func setupHudSuccess2() {
-        hud.textLabel.text = "登録しました"
-        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-        hud.show(in: (natureVC?.view)!)
-        hud.dismiss(afterDelay: 1)
-    }
-    
-    private func setupHudSuccess3() {
-        hud.textLabel.text = "登録しました"
-        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-        hud.show(in: (funVC?.view)!)
-        hud.dismiss(afterDelay: 1)
-    }
-    
-    private func setupHudSuccess4() {
-        hud.textLabel.text = "登録しました"
-        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-        hud.show(in: (animalVC?.view)!)
-        hud.dismiss(afterDelay: 1)
     }
     
     // MARK: - Actions
@@ -171,197 +142,197 @@ class SoundTableViewCell: UITableViewCell {
             }
             
             if soundNameLbl.text == "ビニール袋" {
-                setupHudSuccess1()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ビニール袋", forKey: FAVO_SLEEP1)
             }
             
             if soundNameLbl.text == "ドライヤー" {
-                setupHudSuccess1()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ドライヤー", forKey: FAVO_SLEEP2)
             }
             
             if soundNameLbl.text == "洗濯機" {
-                setupHudSuccess1()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("洗濯機", forKey: FAVO_SLEEP3)
             }
             
             if soundNameLbl.text == "煮物" {
-                setupHudSuccess1()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("煮物", forKey: FAVO_SLEEP4)
             }
             
             if soundNameLbl.text == "シャワー" {
-                setupHudSuccess1()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("シャワー", forKey: FAVO_SLEEP5)
             }
             
             if soundNameLbl.text == "水を注ぐ" {
-                setupHudSuccess1()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("水を注ぐ", forKey: FAVO_SLEEP6)
             }
             
             if soundNameLbl.text == "掃除機1" {
-                setupHudSuccess1()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("掃除機1", forKey: FAVO_SLEEP7)
             }
             
             if soundNameLbl.text == "掃除機2" {
-                setupHudSuccess1()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("掃除機2", forKey: FAVO_SLEEP8)
             }
             
             if soundNameLbl.text == "砂嵐" {
-                setupHudSuccess1()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("砂嵐", forKey: FAVO_SLEEP9)
             }
             
             if soundNameLbl.text == "ノイズ" {
-                setupHudSuccess1()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ノイズ", forKey: FAVO_SLEEP10)
             }
             
             if soundNameLbl.text == "魔法" {
-                setupHudSuccess3()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("魔法", forKey: FAVO_FUN1)
             }
             
             if soundNameLbl.text == "ジャンプ" {
-                setupHudSuccess3()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ジャンプ", forKey: FAVO_FUN2)
             }
             
             if soundNameLbl.text == "ポカッ" {
-                setupHudSuccess3()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ポカッ", forKey: FAVO_FUN3)
             }
             
             if soundNameLbl.text == "プンッ" {
-                setupHudSuccess3()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("プンッ", forKey: FAVO_FUN4)
             }
             
             if soundNameLbl.text == "ブゥーン" {
-                setupHudSuccess3()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ブゥーン", forKey: FAVO_FUN5)
             }
             
             if soundNameLbl.text == "ポォーン" {
-                setupHudSuccess3()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ポォーン", forKey: FAVO_FUN6)
             }
             
             if soundNameLbl.text == "ワープ" {
-                setupHudSuccess3()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ワープ", forKey: FAVO_FUN7)
             }
             
             if soundNameLbl.text == "キラキラ" {
-                setupHudSuccess3()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("キラキラ", forKey: FAVO_FUN7)
             }
             
             if soundNameLbl.text == "カーニバル" {
-                setupHudSuccess3()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("カーニバル", forKey: FAVO_FUN8)
             }
             
             if soundNameLbl.text == "いぬ" {
-                setupHudSuccess4()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("いぬ", forKey: FAVO_ANIMAL1)
             }
             
             if soundNameLbl.text == "ねこ" {
-                setupHudSuccess4()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ねこ", forKey: FAVO_ANIMAL2)
             }
             
             if soundNameLbl.text == "やぎ" {
-                setupHudSuccess4()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("やぎ", forKey: FAVO_ANIMAL3)
             }
             
             if soundNameLbl.text == "ぞう" {
-                setupHudSuccess4()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ぞう", forKey: FAVO_ANIMAL4)
             }
             
             if soundNameLbl.text == "うし" {
-                setupHudSuccess4()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("うし", forKey: FAVO_ANIMAL5)
             }
             
             if soundNameLbl.text == "さる" {
-                setupHudSuccess4()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("さる", forKey: FAVO_ANIMAL6)
             }
             
             if soundNameLbl.text == "ひよこ" {
-                setupHudSuccess4()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ひよこ", forKey: FAVO_ANIMAL7)
             }
             
             if soundNameLbl.text == "にわとり" {
-                setupHudSuccess4()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("にわとり", forKey: FAVO_ANIMAL8)
             }
             
             if soundNameLbl.text == "うぐいす" {
-                setupHudSuccess4()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("うぐいす", forKey: FAVO_ANIMAL9)
             }
             
             if soundNameLbl.text == "小川" {
-                setupHudSuccess2()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("小川", forKey: FAVO_NATURE1)
             }
             
             if soundNameLbl.text == "湧水" {
-                setupHudSuccess2()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("湧水", forKey: FAVO_NATURE2)
             }
             
             if soundNameLbl.text == "鍾乳洞" {
-                setupHudSuccess2()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("鍾乳洞", forKey: FAVO_NATURE3)
             }
             
             if soundNameLbl.text == "波" {
-                setupHudSuccess2()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("波", forKey: FAVO_NATURE4)
             }
             
             if soundNameLbl.text == "草原" {
-                setupHudSuccess2()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("草原", forKey: FAVO_NATURE5)
             }
             
             if soundNameLbl.text == "台風" {
-                setupHudSuccess2()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("台風", forKey: FAVO_NATURE6)
             }
             
             if soundNameLbl.text == "雨" {
-                setupHudSuccess2()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("雨", forKey: FAVO_NATURE7)
             }
             
             if soundNameLbl.text == "ひぐらし" {
-                setupHudSuccess2()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("ひぐらし", forKey: FAVO_NATURE8)
             }
             
             if soundNameLbl.text == "コオロギ" {
-                setupHudSuccess2()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("コオロギ", forKey: FAVO_NATURE9)
             }
             
             if soundNameLbl.text == "野鳥" {
-                setupHudSuccess2()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("野鳥", forKey: FAVO_NATURE10)
             }
             
             if soundNameLbl.text == "カエル" {
-                setupHudSuccess2()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "登録しました"), delay: 1)
                 UserDefaults.standard.set("カエル", forKey: FAVO_NATURE11)
             }
             

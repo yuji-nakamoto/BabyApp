@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import JGProgressHUD
+import PKHUD
 
 class ReportInputViewController: UITableViewController, UITextViewDelegate {
     
@@ -18,7 +18,6 @@ class ReportInputViewController: UITableViewController, UITextViewDelegate {
     @IBOutlet weak var countLabel: UILabel!
     
     private var user: User!
-    private var hud = JGProgressHUD(style: .dark)
     
     // MARK: - Lifecycle
     
@@ -55,10 +54,7 @@ class ReportInputViewController: UITableViewController, UITextViewDelegate {
     private func saveTextView() {
         
         if textView.text.count > 500 {
-            hud.textLabel.text = "文字数制限になりました"
-            hud.show(in: self.view)
-            hud.indicatorView = JGProgressHUDErrorIndicatorView()
-            hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledError(title: "", subtitle: "文字数制限になりました"), delay: 1)
         } else {
             updateUser(withValue: [REPORT: textView.text as Any])
             navigationController?.popViewController(animated: true)

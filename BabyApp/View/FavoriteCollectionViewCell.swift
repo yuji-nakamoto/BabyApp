@@ -7,7 +7,7 @@
 
 import UIKit
 import AVFoundation
-import JGProgressHUD
+import PKHUD
 
 class FavoriteCollectionViewCell: UICollectionViewCell {
     
@@ -24,7 +24,6 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     private var player1 = AVAudioPlayer()
     private var player2 = AVAudioPlayer()
     private let soundFilePath = Bundle.main.path(forResource: "wadding_up1", ofType: "mp3")
-    private var hud = JGProgressHUD(style: .dark)
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -66,13 +65,6 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
                 print("Error sound", error.localizedDescription)
             }
         }
-    }
-
-    private func setupHudSuccess2() {
-        hud.textLabel.text = "解除しました"
-        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-        hud.show(in: (favoVC?.view)!)
-        hud.dismiss(afterDelay: 1)
     }
     
     // MARK: - Actions
@@ -269,7 +261,7 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
                 UserDefaults.standard.removeObject(forKey: FAVO_NATURE11)
             }
             
-            setupHudSuccess2()
+            HUD.flash(.labeledSuccess(title: "", subtitle: "解除しました"), delay: 1)
             favoVC?.viewDidLoad()
             UserDefaults.standard.set(true, forKey: SOUND_RELOAD1)
             UserDefaults.standard.set(true, forKey: SOUND_RELOAD2)

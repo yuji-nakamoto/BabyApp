@@ -7,7 +7,7 @@
 
 import UIKit
 import Firebase
-import JGProgressHUD
+import PKHUD
 
 class SettingTableViewController: UITableViewController {
 
@@ -25,7 +25,6 @@ class SettingTableViewController: UITableViewController {
     
     private var user = User()
     private var profileImage: UIImage?
-    private var hud = JGProgressHUD(style: .dark)
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,18 +44,12 @@ class SettingTableViewController: UITableViewController {
     @IBAction func completionButtonPressed(_ sender: Any) {
         
         if nameTextField.text!.count > 10 {
-            hud.textLabel.text = "名前は10文字以下で入力してください"
-            hud.indicatorView = JGProgressHUDErrorIndicatorView()
-            hud.show(in: view)
-            hud.dismiss(afterDelay: 1.5)
+            HUD.flash(.labeledError(title: "", subtitle: "名前は10文字以下で入力してください"), delay: 2)
             return
         }
         
         if textView.text!.count > 200 {
-            hud.textLabel.text = "自己紹介は200文字以下で入力してください"
-            hud.indicatorView = JGProgressHUDErrorIndicatorView()
-            hud.show(in: view)
-            hud.dismiss(afterDelay: 1.5)
+            HUD.flash(.labeledError(title: "", subtitle: "自己紹介は200文字以下で入力してください"), delay: 2)
             return
         }
     
@@ -102,10 +95,7 @@ class SettingTableViewController: UITableViewController {
     @objc func tapProfileImage() {
         
         if UserDefaults.standard.object(forKey: IS_LOGIN) == nil {
-            hud.textLabel.text = "プロフィール編集を行うにはログインが必要です"
-            hud.indicatorView = JGProgressHUDErrorIndicatorView()
-            hud.show(in: view)
-            hud.dismiss(afterDelay: 1.5)
+            HUD.flash(.labeledError(title: "", subtitle: "プロフィール編集を行うにはログインが必要です"), delay: 1)
             return
         }
         alertCamera()

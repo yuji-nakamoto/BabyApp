@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import JGProgressHUD
+import PKHUD
 import AVFoundation
 import GoogleMobileAds
 import EmptyDataSet_Swift
@@ -62,7 +62,6 @@ class FavoriteCollectionViewController: UIViewController {
     private var soundTexts = [String]()
     private var player = AVAudioPlayer()
     private let soundFilePath = Bundle.main.path(forResource: "wadding_up1", ofType: "mp3")
-    private var hud = JGProgressHUD(style: .dark)
     
     // MARK: - Lifecycle
     
@@ -139,7 +138,7 @@ class FavoriteCollectionViewController: UIViewController {
                 UserDefaults.standard.removeObject(forKey: FAVO_NATURE10)
                 UserDefaults.standard.removeObject(forKey: FAVO_NATURE11)
                 
-                setupHudSuccess()
+                HUD.flash(.labeledSuccess(title: "", subtitle: "すべて解除しました"), delay: 2)
                 allReleaseButton.isEnabled = false
                 setSounds()
                 UserDefaults.standard.set(true, forKey: SOUND_RELOAD1)
@@ -166,13 +165,6 @@ class FavoriteCollectionViewController: UIViewController {
         } catch  {
             print("Error sound", error.localizedDescription)
         }
-    }
-    
-    private func setupHudSuccess() {
-        hud.textLabel.text = "すべて解除しました"
-        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-        hud.show(in: view)
-        hud.dismiss(afterDelay: 2)
     }
     
     private func setup() {

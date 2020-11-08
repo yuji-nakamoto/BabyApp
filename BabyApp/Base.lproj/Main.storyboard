@@ -48,7 +48,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qk1-AL-2fQ">
-                                <rect key="frame" x="0.0" y="80" width="414" height="662"/>
+                                <rect key="frame" x="0.0" y="80" width="414" height="613"/>
                                 <color key="backgroundColor" name="original_navy3"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" rowHeight="484" id="73P-BX-fo8" customClass="TweetTableViewCell" customModule="BabyApp" customModuleProvider="target">
@@ -284,7 +284,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oNO-wp-gCx">
-                                <rect key="frame" x="0.0" y="802" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="753" width="414" height="60"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wHy-cp-8Nl">
                                         <rect key="frame" x="20" y="13" width="374" height="34"/>
@@ -335,7 +335,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hn7-fJ-c0Y" customClass="GADBannerView">
-                                <rect key="frame" x="0.0" y="742" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="693" width="414" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="YJe-ur-Uuy"/>
                                 </constraints>
@@ -500,7 +500,7 @@
                                     <constraint firstAttribute="width" constant="35" id="h7Z-Er-FFF"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="icons8-キャンセル-48"/>
+                                <state key="normal" image="icons8-削除-60"/>
                                 <connections>
                                     <action selector="closeButtonPressed:" destination="1uU-he-Wal" eventType="touchUpInside" id="Jfd-qJ-Bao"/>
                                 </connections>
@@ -782,7 +782,7 @@
                                     <constraint firstAttribute="width" constant="300" id="jfq-Oo-BCU"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ver1.1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BdJ-CM-P0X">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ver1.2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BdJ-CM-P0X">
                                 <rect key="frame" x="357.5" y="831" width="36.5" height="11"/>
                                 <fontDescription key="fontDescription" name="HiraMaruProN-W4" family="Hiragino Maru Gothic ProN" pointSize="11"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1796,7 +1796,7 @@
                                             <constraint firstAttribute="width" constant="30" id="lmK-GO-e2b"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="icons8-キャンセル-48"/>
+                                        <state key="normal" image="icon_140-1"/>
                                         <connections>
                                             <action selector="backButtonPressed:" destination="TzU-jQ-ali" eventType="touchUpInside" id="4lH-58-P80"/>
                                         </connections>
@@ -3382,7 +3382,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="rAU-Nq-Pog">
-                        <barButtonItem key="leftBarButtonItem" image="icons8-キャンセル-30" id="PZx-VA-EUx">
+                        <barButtonItem key="leftBarButtonItem" image="icons8-削除-60" id="PZx-VA-EUx">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="backButtonPressed:" destination="ZuJ-K9-Cya" id="hMe-Ad-syF"/>
@@ -4022,7 +4022,7 @@
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gh4-Nx-f6w"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="original_navy2"/>
                         <constraints>
                             <constraint firstItem="0fk-H3-zh2" firstAttribute="leading" secondItem="gh4-Nx-f6w" secondAttribute="leading" id="2Ox-MU-5M0"/>
                             <constraint firstItem="3zZ-Ao-Wsk" firstAttribute="trailing" secondItem="gh4-Nx-f6w" secondAttribute="trailing" id="896-fb-aOF"/>
@@ -4680,6 +4680,31 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="Rac-RY-BZr">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="22" id="Pbe-5q-su1">
+                                        <rect key="frame" x="20" y="1237.5" width="374" height="22"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Pbe-5q-su1" id="sG5-aK-myC">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ver1.2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Wb-8w-P6D">
+                                                    <rect key="frame" x="169" y="5.5" width="36.5" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraMaruProN-W4" family="Hiragino Maru Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" systemColor="systemGrayColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="0Wb-8w-P6D" firstAttribute="centerX" secondItem="sG5-aK-myC" secondAttribute="centerX" id="AkH-6W-Osl"/>
+                                                <constraint firstItem="0Wb-8w-P6D" firstAttribute="centerY" secondItem="sG5-aK-myC" secondAttribute="centerY" id="NgI-Qf-gmh"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" name="original_navy2"/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="FaD-Wl-h2f" id="Ib8-Fc-sMj"/>
@@ -4716,7 +4741,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7fp-lP-4ss" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2806" y="1930"/>
+            <point key="canvasLocation" x="2805.7971014492755" y="1929.9107142857142"/>
         </scene>
         <!--Other View Controller-->
         <scene sceneID="pqf-Gm-VFJ">
@@ -4727,7 +4752,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yQ4-A8-QDz">
-                                <rect key="frame" x="0.0" y="88" width="414" height="714"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="665"/>
                                 <color key="backgroundColor" name="original_navy3"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" rowHeight="203" id="ju5-0R-LEZ" customClass="MyPageTableViewCell" customModule="BabyApp">
@@ -5042,7 +5067,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iPe-gh-20S" customClass="GADBannerView">
-                                <rect key="frame" x="0.0" y="802" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="753" width="414" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="w8t-oz-ArP"/>
                                 </constraints>
@@ -5067,7 +5092,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9jQ-pk-n0a">
-                        <barButtonItem key="leftBarButtonItem" image="icons8-キャンセル-30" id="eNd-Jy-Xhq">
+                        <barButtonItem key="leftBarButtonItem" image="back" id="eNd-Jy-Xhq">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="backButtonPressed:" destination="Vft-82-S84" id="g6J-5X-U0a"/>
@@ -6301,7 +6326,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1Oj-GC-uxU">
-                        <barButtonItem key="leftBarButtonItem" image="icons8-キャンセル-30" id="VCg-sn-kLl">
+                        <barButtonItem key="leftBarButtonItem" image="icons8-削除-60" id="VCg-sn-kLl">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="backButtonPressed:" destination="Rh1-XX-gCl" id="Hef-fY-AuJ"/>
@@ -6937,14 +6962,14 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="l3x-7H-RCI"/>
-        <segue reference="jxM-SC-hFG"/>
-        <segue reference="uCL-Xi-VxD"/>
-        <segue reference="9Mz-MP-jhW"/>
-        <segue reference="p6K-HU-wDH"/>
+        <segue reference="qDR-MW-GSt"/>
+        <segue reference="rtV-Mo-bbK"/>
+        <segue reference="Jhw-N4-twK"/>
+        <segue reference="fNn-p2-qLU"/>
+        <segue reference="4j6-fZ-Uh0"/>
         <segue reference="S8Y-Mu-Ynf"/>
-        <segue reference="HAM-YO-tvB"/>
-        <segue reference="VGe-28-wGg"/>
+        <segue reference="xZm-Vn-Gsi"/>
+        <segue reference="npM-y9-jqz"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="back" width="30" height="30"/>
@@ -6955,8 +6980,8 @@
         <image name="heart" catalog="system" width="128" height="109"/>
         <image name="hosi_kao3" width="800" height="800"/>
         <image name="icon_140-1" width="567" height="567"/>
-        <image name="icons8-キャンセル-30" width="30" height="30"/>
         <image name="icons8-キャンセル-48" width="48" height="48"/>
+        <image name="icons8-削除-60" width="30" height="30"/>
         <image name="message" catalog="system" width="128" height="113"/>
         <image name="music.note" catalog="system" width="97" height="128"/>
         <image name="pause.fill" catalog="system" width="116" height="128"/>

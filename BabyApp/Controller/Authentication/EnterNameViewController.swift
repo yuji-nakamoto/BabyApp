@@ -8,8 +8,7 @@
 import UIKit
 
 import UIKit
-import JGProgressHUD
-import TextFieldEffects
+import PKHUD
 
 class EnterNameViewController: UIViewController {
     
@@ -25,8 +24,6 @@ class EnterNameViewController: UIViewController {
     @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var nameLIneHeight: NSLayoutConstraint!
     
-    private var hud = JGProgressHUD(style: .dark)
-
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -44,14 +41,11 @@ class EnterNameViewController: UIViewController {
     
     @IBAction func nextButtonPressed(_ sender: Any) {
         
-        hud.textLabel.text = ""
-        hud.show(in: self.view)
         if textFieldHaveText() {
             
             if nameTextField.text!.count > 10 {
                 generator.notificationOccurred(.error)
-                hud.textLabel.text = "10文字以下で入力してください"
-                hud.dismiss(afterDelay: 2.0)
+                HUD.flash(.labeledError(title: "", subtitle: "10文字以下で入力してください"), delay: 1)
             } else {
                 nextButton.isEnabled = false
                 updateUser(withValue: [USERNAME: nameLabel.text as Any])
@@ -60,8 +54,7 @@ class EnterNameViewController: UIViewController {
             
         } else {
             generator.notificationOccurred(.error)
-            hud.textLabel.text = "名前を入力してください"
-            hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledError(title: "", subtitle: "名前を入力してください"), delay: 1)
         }
     }
     
@@ -120,7 +113,6 @@ class EnterNameViewController: UIViewController {
     private func toEnterProfileImageVC() {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [self] in
-            hud.dismiss()
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let toEnterProfileImageVC = storyboard.instantiateViewController(withIdentifier: "EnterProfileImageVC")
             self.present(toEnterProfileImageVC, animated: true, completion: nil)

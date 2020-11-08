@@ -8,7 +8,7 @@
 import UIKit
 
 import UIKit
-import JGProgressHUD
+import PKHUD
 
 class EnterProfileImageViewController: UIViewController {
     
@@ -23,7 +23,6 @@ class EnterProfileImageViewController: UIViewController {
     
     private let picker = UIImagePickerController()
     private var profileImage: UIImage?
-    private var hud = JGProgressHUD(style: .dark)
     
     // MARK: - Lifecycle
     
@@ -43,12 +42,9 @@ class EnterProfileImageViewController: UIViewController {
     
     @IBAction func nextButtonPressed(_ sender: Any) {
         
-        hud.textLabel.text = ""
-        hud.show(in: self.view)
         if profileImage == nil {
             generator.notificationOccurred(.error)
-            hud.textLabel.text = "プロフィール画像を設定してください"
-            hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledError(title: "", subtitle: "プロフィール画像を設定してください"), delay: 1)
             return
         }
         nextButton.isEnabled = false
@@ -155,7 +151,6 @@ class EnterProfileImageViewController: UIViewController {
     private func toTabVC() {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [self] in
-            hud.dismiss()
             UserDefaults.standard.set(true, forKey: IS_LOGIN)
             UserDefaults.standard.set(true, forKey: PUSH_POST)
             UserDefaults.standard.set(true, forKey: PUSH_FOLLOW)

@@ -8,8 +8,7 @@
 import UIKit
 
 import UIKit
-import JGProgressHUD
-import TextFieldEffects
+import PKHUD
 
 class RegisterViewController: UIViewController, UITextFieldDelegate {
     
@@ -28,9 +27,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var emailLIneHeight: NSLayoutConstraint!
     @IBOutlet weak var passwordLineHeight: NSLayoutConstraint!
-    
-    private var hud = JGProgressHUD(style: .dark)
-    
+        
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -53,15 +50,13 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func doneButtonPressed(_ sender: Any) {
         
-        hud.textLabel.text = ""
-        hud.show(in: view)
+        doneButton.isEnabled = false
         if textFieldHaveText() {
             createUser()
         } else {
             generator.notificationOccurred(.error)
-            hud.textLabel.text = "入力欄を全て埋めてください"
-            hud.show(in: self.view)
-            hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledError(title: "", subtitle: "入力欄を全て埋めてください"), delay: 1)
+            doneButton.isEnabled = true
         }
     }
     
@@ -72,12 +67,11 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         AuthService.createUser(email: emailTextField.text!, password: passwordTextField.text!) { [self] (error) in
             if error != nil {
                 generator.notificationOccurred(.error)
-                hud.textLabel.text = "既に登録されているアドレスか、アドレスが無効です"
-                hud.dismiss(afterDelay: 2.0)
+                HUD.flash(.labeledError(title: "", subtitle: "既に登録されているアドレスか、アドレスが無効です"), delay: 1)
+                doneButton.isEnabled = true
                 return
             }
-            hud.textLabel.text = "登録が完了しました"
-            hud.dismiss(afterDelay: 3.0)
+            HUD.flash(.labeledSuccess(title: "", subtitle: "登録が完了しました"), delay: 2)
             saveUser(userId: User.currentUserId(), withValue: [UID: User.currentUserId(), EMAIL: emailTextField.text as Any])
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 view.endEditing(true)

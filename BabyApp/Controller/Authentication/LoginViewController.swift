@@ -6,8 +6,7 @@
 //
 
 import UIKit
-import JGProgressHUD
-import TextFieldEffects
+import PKHUD
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -24,9 +23,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var emailLIneHeight: NSLayoutConstraint!
     @IBOutlet weak var passwordLineHeight: NSLayoutConstraint!
-    
-    private var hud = JGProgressHUD(style: .dark)
-    
+        
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -42,14 +39,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func loginButtonPressed(_ sender: Any) {
         
-        hud.textLabel.text = ""
-        hud.show(in: self.view)
+        loginButton.isEnabled = false
         if textFieldHaveText() {
             loginUser()
         } else {
             generator.notificationOccurred(.error)
-            hud.textLabel.text = "入力欄を全て埋めてください"
-            hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledError(title: "", subtitle: "入力欄を全て埋めてください"), delay: 1)
+            loginButton.isEnabled = true
         }
     }
     
@@ -57,15 +53,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private func loginUser() {
         
-        AuthService.loginUser(email: emailTextField.text!, password: passwordTextField.text!) { (error) in
+        AuthService.loginUser(email: emailTextField.text!, password: passwordTextField.text!) { [self] (error) in
             if error == nil {
-                self.hud.textLabel.text = "ログインしました"
-                self.hud.dismiss(afterDelay: 2.0)
+                HUD.flash(.labeledSuccess(title: "", subtitle: "ログインしました"), delay: 2)
                 self.toTabBerVC()
-
             } else {
-                self.hud.textLabel.text = "メールアドレス、もしくはパスワードが間違えています"
-                self.hud.dismiss(afterDelay: 2.0)
+                HUD.flash(.labeledError(title: "", subtitle: "メールアドレス、もしくはパスワードが間違えています"), delay: 1)
+                loginButton.isEnabled = true
             }
         }
     }
@@ -133,8 +127,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private func toTabBerVC() {
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [self] in
-            hud.dismiss()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
             UserDefaults.standard.set(true, forKey: IS_LOGIN)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let toTabBerVC = storyboard.instantiateViewController(withIdentifier: "TabVC")

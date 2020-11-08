@@ -6,8 +6,7 @@
 //
 
 import UIKit
-import JGProgressHUD
-import TextFieldEffects
+import PKHUD
 
 class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
     
@@ -20,31 +19,25 @@ class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailLineView: UIView!
     @IBOutlet weak var emailTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var emailLIneHeight: NSLayoutConstraint!
-    
-    private var hud = JGProgressHUD(style: .dark)
-    
+        
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
     }
     
     // MARK: - Actions
     
     @IBAction func sendButtonPressed(_ sender: Any) {
-        
-        hud.textLabel.text = ""
-        hud.show(in: self.view)
+   
         if textFieldHaveText() {
             
             sendButton.isEnabled = false
             resetPassword()
         } else {
             generator.notificationOccurred(.error)
-            hud.textLabel.text = "メールアドレスを入力してください"
-            hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledError(title: "", subtitle: "メールアドレスを入力してください"), delay: 1)
         }
     }
     
@@ -56,16 +49,15 @@ class ResetPasswordViewController: UIViewController, UITextFieldDelegate {
     
     private func resetPassword() {
         
-        AuthService.resetPassword(email: emailTextField.text!) { (error) in
+        AuthService.resetPassword(email: emailTextField.text!) { [self] (error) in
             
             if error != nil {
                 generator.notificationOccurred(.error)
-                self.hud.textLabel.text = "登録されていないメールアドレスか、メールアドレスが無効です"
-                self.hud.dismiss(afterDelay: 2.0)
+                HUD.flash(.labeledError(title: "", subtitle: "登録されていないメールアドレスか、メールアドレスが無効です"), delay: 1)
+                sendButton.isEnabled = true
                 return
             }
-            self.hud.textLabel.text = "リセットメールを送信しました"
-            self.hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledSuccess(title: "", subtitle: "リセットメールを送信しました"), delay: 1)
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.view.endEditing(true)
                 self.dismiss(animated: true, completion: nil)

@@ -7,7 +7,7 @@
 
 import UIKit
 import Firebase
-import JGProgressHUD
+import PKHUD
 
 class ReportTableViewController: UITableViewController {
     
@@ -22,7 +22,6 @@ class ReportTableViewController: UITableViewController {
     var userId = ""
     private var user = User()
     private var currentUser = User()
-    private var hud = JGProgressHUD(style: .dark)
 
     // MARK: - Lifecycle
     
@@ -43,10 +42,7 @@ class ReportTableViewController: UITableViewController {
     
     @IBAction func sendButtonPressed(_ sender: Any) {
         if reportLabel.text == "通報内容" {
-            hud.textLabel.text = "通報内容を入力してください"
-            hud.show(in: self.view)
-            hud.indicatorView = JGProgressHUDErrorIndicatorView()
-            hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledError(title: "", subtitle: "通報内容を入力してください"), delay: 1)
             return
         }
         saveReport()
@@ -96,10 +92,7 @@ class ReportTableViewController: UITableViewController {
                 print("Error save report: \(error.localizedDescription)")
             }
             updateUser(withValue: [REPORT: ""])
-            self.hud.textLabel.text = "送信が完了しました"
-            self.hud.show(in: self.view)
-            self.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-            self.hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledSuccess(title: "", subtitle: "送信が完了しました"), delay: 1)
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 self.navigationController?.popViewController(animated: true)
                 self.dismiss(animated: true, completion: nil)

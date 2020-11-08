@@ -7,8 +7,7 @@
 
 import UIKit
 import Firebase
-import JGProgressHUD
-import TextFieldEffects
+import PKHUD
 
 class InquiryTableViewController: UITableViewController, UITextFieldDelegate {
     
@@ -23,17 +22,16 @@ class InquiryTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var emailLIneHeight: NSLayoutConstraint!
     
     private var currentUser = User()
-    private var hud = JGProgressHUD(style: .dark)
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setup()
         fetchCurrentUser()
     }
     
@@ -41,19 +39,15 @@ class InquiryTableViewController: UITableViewController, UITextFieldDelegate {
     
     @IBAction func sendButtonPressed(_ sender: Any) {
         
-        hud.textLabel.text = ""
-        hud.show(in: self.view)
         if inquiryLabel.text == "お問い合わせ内容" {
             generator.notificationOccurred(.error)
-            hud.textLabel.text = "内容を入力してください"
-            hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledError(title: "", subtitle: "内容を入力してください"), delay: 1)
             return
         }
         
         if emailTextField.text == "" {
             generator.notificationOccurred(.error)
-            hud.textLabel.text = "メールアドレスを入力してください"
-            hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledError(title: "", subtitle: "メールアドレスを入力してください"), delay: 1)
             return
         }
         saveInquiry()
@@ -84,18 +78,27 @@ class InquiryTableViewController: UITableViewController, UITextFieldDelegate {
                     INQUIRY: inquiryLabel.text!,
                     TIMESTAMP: Timestamp(date: Date())] as [String : Any]
         
-        COLLECTION_INQUIRY.document(User.currentUserId()).collection("inquiries").document().setData(dict)
+        let dict2 = [EMAIL: emailTextField.text!,
+                    INQUIRY: inquiryLabel.text!,
+                    TIMESTAMP: Timestamp(date: Date())] as [String : Any]
+        
+        if Auth.auth().currentUser == nil {
+            COLLECTION_INQUIRY.document("users").collection("inquiries").addDocument(data: dict2)
+            UserDefaults.standard.removeObject(forKey: INQUIRY)
+        } else {
+            COLLECTION_INQUIRY.document(User.currentUserId()).collection("inquiries").document().setData(dict)
+            updateUser(withValue: [INQUIRY: ""])
+        }
 
-        updateUser(withValue: [INQUIRY: ""])
-        hud.textLabel.text = "送信が完了しました"
+        HUD.flash(.labeledSuccess(title: "", subtitle: "送信が完了しました"), delay: 2)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
-            hud.dismiss()
             self.navigationController?.popViewController(animated: true)
             self.dismiss(animated: true, completion: nil)
         }
     }
     
     private func setup() {
+        
         navigationController?.navigationBar.titleTextAttributes
             = [NSAttributedString.Key.font: UIFont(name: "HiraMaruProN-W4", size: 15)!, .foregroundColor: UIColor.white]
         navigationItem.title = "お問い合わせ"
@@ -105,6 +108,20 @@ class InquiryTableViewController: UITableViewController, UITextFieldDelegate {
         emailTextField.addTarget(self, action: #selector(emailTextFieldTap), for: .editingDidBegin)
         emailTextField.addTarget(self, action: #selector(emailLabelDown), for: .editingDidEnd)
         emailTextField.keyboardType = .emailAddress
+        
+        if UserDefaults.standard.object(forKey: INQUIRY) != nil {
+            let text = UserDefaults.standard.object(forKey: INQUIRY)
+            if text as! String == "" {
+                inquiryLabel.text = "お問い合わせ内容"
+                inputLabel.isHidden = false
+                return
+            }
+            inquiryLabel.text = (text as! String)
+            inputLabel.isHidden = true
+        } else {
+            inquiryLabel.text = "お問い合わせ内容"
+            inputLabel.isHidden = false
+        }
     }
     
     @objc func emailTextFieldTap() {
@@ -122,6 +139,10 @@ class InquiryTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     private func setupUserInfo(_ currentUser: User) {
+        
+        if UserDefaults.standard.object(forKey: INQUIRY) != nil {
+            return
+        }
         
         emailTextField.text = currentUser.email
         if currentUser.inquiry == nil || currentUser.inquiry == "" {

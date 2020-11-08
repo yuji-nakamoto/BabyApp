@@ -62,5 +62,18 @@ class ParchmentCommunityViewController: UIViewController {
         pagingVC.menuHorizontalAlignment = .center
         pagingVC.menuBackgroundColor = UIColor(named: O_NAVY2)!
         pagingVC.borderColor = UIColor(named: O_NAVY2)!
+        
+        switch (UIScreen.main.nativeBounds.height) {
+        case 1334:
+            NSLayoutConstraint.activate([
+                pagingVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                pagingVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                pagingVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                pagingVC.view.topAnchor.constraint(equalTo: view.topAnchor, constant: 25)
+            ])
+            break
+        default:
+            break
+        }
     }
 }

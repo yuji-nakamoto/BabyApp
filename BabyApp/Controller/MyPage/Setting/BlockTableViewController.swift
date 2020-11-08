@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import JGProgressHUD
+import PKHUD
 
 class BlockTableViewController: UITableViewController {
     
@@ -18,7 +18,6 @@ class BlockTableViewController: UITableViewController {
     
     var userId = ""
     private var user = User()
-    private var hud = JGProgressHUD(style: .dark)
     
     // MARK: - Lifecycle
     
@@ -60,10 +59,7 @@ class BlockTableViewController: UITableViewController {
     private func saveBlock() {
         
         Block.saveBlock(userId: userId)
-        hud.textLabel.text = "ブロックしました"
-        hud.show(in: self.view)
-        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-        hud.dismiss(afterDelay: 2.0)
+        HUD.flash(.labeledSuccess(title: "", subtitle: "ブロックしました"), delay: 1)
         UserDefaults.standard.set(true, forKey: REFRESH)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             self.navigationController?.popViewController(animated: true)

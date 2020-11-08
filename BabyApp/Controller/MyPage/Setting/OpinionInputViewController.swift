@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import JGProgressHUD
+import Firebase
+import PKHUD
 
 class OpinionInputViewController: UITableViewController, UITextViewDelegate {
     
@@ -18,7 +19,6 @@ class OpinionInputViewController: UITableViewController, UITextViewDelegate {
     @IBOutlet weak var countLabel: UILabel!
     
     private var user: User!
-    private var hud = JGProgressHUD(style: .dark)
     
     // MARK: - Lifecycle
     
@@ -44,7 +44,9 @@ class OpinionInputViewController: UITableViewController, UITextViewDelegate {
         
         User.fetchUser(User.currentUserId()) { (user) in
             self.user = user
-            self.textView.text = user.opinion
+            if UserDefaults.standard.object(forKey: OPINION) == nil {
+                self.textView.text = user.opinion
+            }
             self.tableView.reloadData()
         }
     }
@@ -54,17 +56,13 @@ class OpinionInputViewController: UITableViewController, UITextViewDelegate {
     private func saveTextView() {
         
         if textView.text.count > 500 {
-            hud.textLabel.text = "文字数制限になりました"
-            hud.show(in: self.view)
-            hud.indicatorView = JGProgressHUDErrorIndicatorView()
-            hud.dismiss(afterDelay: 2.0)
-        } else if textView.text.count == 0 {
-            hud.textLabel.text = "未入力です"
-            hud.show(in: self.view)
-            hud.indicatorView = JGProgressHUDErrorIndicatorView()
-            hud.dismiss(afterDelay: 2.0)
+            HUD.flash(.labeledError(title: "", subtitle: "文字数制限になりました"), delay: 1)
         } else {
-            updateUser(withValue: [OPINION: textView.text as Any])
+            if Auth.auth().currentUser == nil {
+                UserDefaults.standard.set(textView.text, forKey: OPINION)
+            } else {
+                updateUser(withValue: [OPINION: textView.text as Any])
+            }
             navigationController?.popViewController(animated: true)
             dismiss(animated: true, completion: nil)
         }
@@ -82,6 +80,11 @@ class OpinionInputViewController: UITableViewController, UITextViewDelegate {
         backView.layer.borderColor = UIColor.systemGray.cgColor
         tableView.separatorStyle = .none
         textView.delegate = self
+        
+        if UserDefaults.standard.object(forKey: OPINION) != nil {
+            let text = UserDefaults.standard.object(forKey: OPINION)
+            textView.text = (text as! String)
+        }
     }
     
     func textViewDidChange(_ textView: UITextView) {
